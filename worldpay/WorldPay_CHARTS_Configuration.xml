@@ -12,10 +12,21 @@
       MHFT  - File Trailer
 
     All positions are 1-indexed inclusive, including the 4-space line prefix.
-    Parser targets only MHCB records. Each MHCB line = one output row.
-    Segment 1 carries full data; Segment 2+ carry limited/accounting data.
-    Filter by SegmentNumber='1' downstream if only primary records are needed.
+    Parser targets only MHCB records. Each MHCB line = one output row before merge.
+    Massage groups by RecordNumber and merges Segment 2/3/4/5 into Segment 1.
+
+    BatchSize is set large to guarantee all segments of a record land in the
+    same batch — required for the multi-segment merge in Massage to work correctly.
+    If the batch were split across a segment boundary, the supplemental segment
+    data would be silently dropped.
   -->
+
+  <!--
+    BatchSize: must be >= total MHCB lines in the largest expected file.
+    WorldPay dispute files are typically thousands of records; 500,000 covers
+    even the largest realistic daily file while staying within memory limits.
+  -->
+  <BatchSize>500000</BatchSize>
 
   <Extraction>
     <!--
