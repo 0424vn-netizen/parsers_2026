@@ -168,11 +168,30 @@
       <Layout DataField="Seg2CommentFromMerchant" StartOffset="0"   EndOffset="62"  />
 
       <!--
-        Segment 3 unique field:
-          Merchant Research Comments  81-320 (240 chars): 0-idx [80:320]
+        Segment 3&4 unique field — Merchant Research Comments Line 81-320 (240 chars): 0-idx [80:320]
         Cursor is at 320; jump back: 80 - 320 = -240
+        Both Segment 3 and Segment 4 share this same layout per spec.
+        If a record has both Seg-3 and Seg-4, Massage concatenates them.
       -->
       <Layout DataField="Seg3ResearchComments"   StartOffset="-240" EndOffset="240" />
+
+      <!--
+        Segment 5 unique fields (spec "Segment 5 Position"):
+          Discretionary Field 1   81-115  (35 chars): 0-idx [80:115]
+          Discretionary Field 2  116-135  (20 chars): 0-idx [115:135]
+          Discretionary Field 3  136-155  (20 chars): 0-idx [135:155]
+          (skip MerchantNumber+gap 156-217 = 62 chars)
+          Amazon Pay Charge ID   218-244  (27 chars): 0-idx [217:244]
+          PAR                    245-279  (35 chars): 0-idx [244:279]
+        Cursor is at 320; jump back: 80 - 320 = -240
+      -->
+      <Layout DataField="Seg5DiscretionaryField1"  StartOffset="-240" EndOffset="35"  />
+      <Layout DataField="Seg5DiscretionaryField2"  StartOffset="0"    EndOffset="20"  />
+      <Layout DataField="Seg5DiscretionaryField3"  StartOffset="0"    EndOffset="20"  />
+      <!-- Skip MerchantNumber(156-171) + gap(172-217) = 62 chars; cursor 155 -->
+      <Layout                                      StartOffset="0"    EndOffset="62"  />
+      <Layout DataField="Seg5AmazonPayChargeId"    StartOffset="0"    EndOffset="27"  />
+      <Layout DataField="Seg5PAR"                  StartOffset="0"    EndOffset="35"  />
 
     </Layout>
   </Extraction>
@@ -409,6 +428,21 @@
       <String Alias="Seg3ResearchComments" DataField="Seg3ResearchComments">
         <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
       </String>
+      <String Alias="Seg5DiscretionaryField1" DataField="Seg5DiscretionaryField1">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+      <String Alias="Seg5DiscretionaryField2" DataField="Seg5DiscretionaryField2">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+      <String Alias="Seg5DiscretionaryField3" DataField="Seg5DiscretionaryField3">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+      <String Alias="Seg5AmazonPayChargeId" DataField="Seg5AmazonPayChargeId">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+      <String Alias="Seg5PAR" DataField="Seg5PAR">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
 
       <!-- MerchantChain: Chain code (5 chars) -->
       <String Alias="MerchantChain" DataField="MerchantChain">
@@ -475,10 +509,28 @@
               if (!string.IsNullOrEmpty(ctm))  seg1["CommentToMerchant"] = ctm;
               if (!string.IsNullOrEmpty(cfm))  seg1["CommentFromMerchant"] = cfm;
             }
-            else
+            else if (segNum == "3" || segNum == "4")
             {
+              // Seg 3&4 share same layout; concatenate if both present
               var rc = seg.ContainsKey("Seg3ResearchComments") ? seg["Seg3ResearchComments"]?.ToString() : null;
-              if (!string.IsNullOrEmpty(rc)) seg1["ResearchComments"] = rc;
+              if (!string.IsNullOrEmpty(rc))
+              {
+                var existing = seg1.ContainsKey("ResearchComments") ? seg1["ResearchComments"]?.ToString() : null;
+                seg1["ResearchComments"] = string.IsNullOrEmpty(existing) ? rc : existing + " " + rc;
+              }
+            }
+            else if (segNum == "5")
+            {
+              var df1     = seg.ContainsKey("Seg5DiscretionaryField1") ? seg["Seg5DiscretionaryField1"]?.ToString() : null;
+              var df2     = seg.ContainsKey("Seg5DiscretionaryField2") ? seg["Seg5DiscretionaryField2"]?.ToString() : null;
+              var df3     = seg.ContainsKey("Seg5DiscretionaryField3") ? seg["Seg5DiscretionaryField3"]?.ToString() : null;
+              var amazon  = seg.ContainsKey("Seg5AmazonPayChargeId") ? seg["Seg5AmazonPayChargeId"]?.ToString() : null;
+              var par     = seg.ContainsKey("Seg5PAR") ? seg["Seg5PAR"]?.ToString() : null;
+              if (!string.IsNullOrEmpty(df1))    seg1["DiscretionaryField1"] = df1;
+              if (!string.IsNullOrEmpty(df2))    seg1["DiscretionaryField2"] = df2;
+              if (!string.IsNullOrEmpty(df3))    seg1["DiscretionaryField3"] = df3;
+              if (!string.IsNullOrEmpty(amazon)) seg1["AmazonPayChargeId"] = amazon;
+              if (!string.IsNullOrEmpty(par))    seg1["PAR"] = par;
             }
           }
 
@@ -526,6 +578,11 @@
         <string>CommentToMerchant</string>
         <string>CommentFromMerchant</string>
         <string>ResearchComments</string>
+        <string>DiscretionaryField1</string>
+        <string>DiscretionaryField2</string>
+        <string>DiscretionaryField3</string>
+        <string>AmazonPayChargeId</string>
+        <string>PAR</string>
       </Fields>
     </Csv>
     <InvalidLog OutPath="$path/$name_INVALID" />
