@@ -105,8 +105,14 @@
       <!-- Spec 162-184 (0-idx 161): AcquirerReferenceNumber / ReferenceNumber (23 chars) -->
       <Layout DataField="ReferenceNumber"              StartOffset="0"  EndOffset="23" />
 
-      <!-- Skip MerchantChain (185-189) + DivisionNumber (190-192) + MerchantStoreNumber (193-201) = 17 chars -->
-      <Layout                                          StartOffset="0"  EndOffset="17" />
+      <!-- Spec 185-189 (0-idx 184): MerchantChain (5 chars) -->
+      <Layout DataField="MerchantChain"                StartOffset="0"  EndOffset="5"  />
+
+      <!-- Spec 190-192 (0-idx 189): DivisionNumber (3 chars) -->
+      <Layout DataField="DivisionNumber"               StartOffset="0"  EndOffset="3"  />
+
+      <!-- Spec 193-201 (0-idx 192): MerchantStoreNumber (9 chars) -->
+      <Layout DataField="MerchantStoreNumber"          StartOffset="0"  EndOffset="9"  />
 
       <!-- Spec 202-204 (0-idx 201): FeeAmount (3 chars, implied decimal, used when ChargebackType=FEE) -->
       <Layout DataField="Fee"                          StartOffset="0"  EndOffset="3"  />
@@ -118,9 +124,20 @@
            00=Not used, 01=Keyed, 02=MagStripe, 90=MagStripe PS2000 -->
       <Layout DataField="EntryMode"                    StartOffset="0"  EndOffset="2"  />
 
-      <!-- Skip AuthSource(216) + Reserved(217) + ECI(218) + ThirdPartyFlag(219)
-               + IssuerComments(220-269) + Filler(270-303) = 88 chars -->
-      <Layout                                          StartOffset="0"  EndOffset="88" />
+      <!-- Skip AuthSource(216) + Reserved(217) = 2 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="2"  />
+
+      <!-- Spec 218 (0-idx 217): ECI - Electronic Commerce Indicator (1 char) -->
+      <Layout DataField="ECI"                          StartOffset="0"  EndOffset="1"  />
+
+      <!-- Skip ThirdPartyFlag(219) = 1 char -->
+      <Layout                                          StartOffset="0"  EndOffset="1"  />
+
+      <!-- Spec 220-269 (0-idx 219): CommentsFromIssuer (50 chars) -->
+      <Layout DataField="CommentsFromIssuer"           StartOffset="0"  EndOffset="50" />
+
+      <!-- Skip Filler(270-303) = 34 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="34" />
 
       <!-- Spec 304-319 (0-idx 303): MerchantIdentificationNumber / MerchantNumber (16 chars) -->
       <Layout DataField="MerchantNumber"               StartOffset="0"  EndOffset="16" />
@@ -152,6 +169,15 @@
         <Actions>
           <CSharp Order="-1">
             <Code>return V?.Trim();</Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- Reversal: "Reversal" when DebitOrCredit=42, null otherwise -->
+      <String Alias="Reversal" DataField="DebitOrCredit">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>return "42".Equals(V?.Trim()) ? "Reversal" : null;</Code>
           </CSharp>
         </Actions>
       </String>
@@ -299,11 +325,11 @@
         <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
       </String>
 
-      <!-- FirstTime: "Y" when TransactionDispositionQualifier=100 (New Item) -->
+      <!-- FirstTime: "Yes" when TransactionDispositionQualifier=100 (New Item), "No" otherwise -->
       <String Alias="FirstTime" DataField="TransactionDispositionQualifier">
         <Actions>
           <CSharp Order="-1">
-            <Code>return "100".Equals(V?.Trim()) ? "Y" : null;</Code>
+            <Code>return "100".Equals(V?.Trim()) ? "Yes" : "No";</Code>
           </CSharp>
         </Actions>
       </String>
@@ -338,6 +364,31 @@
         <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
       </String>
 
+      <!-- MerchantChain: Chain code (5 chars) -->
+      <String Alias="MerchantChain" DataField="MerchantChain">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- DivisionNumber: Merchant division (3 chars) -->
+      <String Alias="DivisionNumber" DataField="DivisionNumber">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- MerchantStoreNumber: Store number within chain (9 chars) -->
+      <String Alias="MerchantStoreNumber" DataField="MerchantStoreNumber">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- ECI: Electronic Commerce Indicator -->
+      <String Alias="ECI" DataField="ECI">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- CommentsFromIssuer: Free-form issuer comments (50 chars) -->
+      <String Alias="CommentsFromIssuer" DataField="CommentsFromIssuer">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
     </Fields>
     <Massage />
   </Transformation>
@@ -347,6 +398,7 @@
       <Fields>
         <string>DateReceived</string>
         <string>DebitOrCredit</string>
+        <string>Reversal</string>
         <string>TransactionAmount</string>
         <string>RecordNumber</string>
         <string>SegmentNumber</string>
@@ -366,8 +418,13 @@
         <string>CBReferenceNumber</string>
         <string>FirstTime</string>
         <string>ReferenceNumber</string>
+        <string>MerchantChain</string>
+        <string>DivisionNumber</string>
+        <string>MerchantStoreNumber</string>
         <string>Fee</string>
         <string>EntryMode</string>
+        <string>ECI</string>
+        <string>CommentsFromIssuer</string>
         <string>MerchantNumber</string>
       </Fields>
     </Csv>
