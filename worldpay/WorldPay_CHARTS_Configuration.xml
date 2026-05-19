@@ -142,6 +142,38 @@
       <!-- Spec 304-319 (0-idx 303): MerchantIdentificationNumber / MerchantNumber (16 chars) -->
       <Layout DataField="MerchantNumber"               StartOffset="0"  EndOffset="16" />
 
+      <!--
+        Segment 2 unique fields — extracted from ALL MHCB lines but only used for SegmentNumber=2.
+        Byte ranges REUSE positions that Segment 1 uses for different fields.
+        Cursor is at 319 after MerchantNumber; use negative StartOffset to jump back.
+
+        Seg-2 field layout (1-indexed):
+          User Note              131-170  (40 chars): 0-idx [130:170]
+          Comment to Merchant    171-232  (62 chars): 0-idx [170:232]
+          (Chain/Div/Store       233-249 = 17 chars, skip)
+          (Gap                   250-258 = 9 chars,  skip)
+          Comment From Merchant  259-320  (62 chars): 0-idx [258:320]
+      -->
+
+      <!-- Jump back: 130 - 319 = -189; User Note [130:170] = 40 chars -->
+      <Layout DataField="Seg2UserNote"           StartOffset="-189" EndOffset="40"  />
+
+      <!-- Comment to Merchant [170:232] = 62 chars; cursor now 170 -->
+      <Layout DataField="Seg2CommentToMerchant"  StartOffset="0"    EndOffset="62"  />
+
+      <!-- Skip Chain+Div+Store+padding [232:258] = 26 chars; cursor now 232 -->
+      <Layout                                    StartOffset="0"    EndOffset="26"  />
+
+      <!-- Comment From Merchant [258:320] = 62 chars; cursor now 258 -->
+      <Layout DataField="Seg2CommentFromMerchant" StartOffset="0"   EndOffset="62"  />
+
+      <!--
+        Segment 3 unique field:
+          Merchant Research Comments  81-320 (240 chars): 0-idx [80:320]
+        Cursor is at 320; jump back: 80 - 320 = -240
+      -->
+      <Layout DataField="Seg3ResearchComments"   StartOffset="-240" EndOffset="240" />
+
     </Layout>
   </Extraction>
 
@@ -364,6 +396,20 @@
         <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
       </String>
 
+      <!-- Segment 2/3 raw extractions — trimmed here, merged into Seg-1 record in Massage -->
+      <String Alias="Seg2UserNote" DataField="Seg2UserNote">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+      <String Alias="Seg2CommentToMerchant" DataField="Seg2CommentToMerchant">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+      <String Alias="Seg2CommentFromMerchant" DataField="Seg2CommentFromMerchant">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+      <String Alias="Seg3ResearchComments" DataField="Seg3ResearchComments">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
       <!-- MerchantChain: Chain code (5 chars) -->
       <String Alias="MerchantChain" DataField="MerchantChain">
         <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
@@ -392,14 +438,53 @@
     </Fields>
     <Massage>
       <Code>
-        var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+        // Group all segments by RecordNumber
+        var groups = new Dictionary&lt;string, List&lt;IDictionary&lt;string, object&gt;&gt;&gt;();
+        var order = new List&lt;string&gt;();
         foreach (var record in B)
         {
-          var seg = record.ContainsKey("SegmentNumber") ? record["SegmentNumber"]?.ToString() : null;
-          if (seg == "1")
-            newB.Add(record);
+          var recNum = record.ContainsKey("RecordNumber") ? record["RecordNumber"]?.ToString() ?? "" : "";
+          if (!groups.ContainsKey(recNum)) { groups[recNum] = new List&lt;IDictionary&lt;string, object&gt;&gt;(); order.Add(recNum); }
+          groups[recNum].Add(record);
         }
-        return newB;
+
+        var result = new List&lt;IDictionary&lt;string, object&gt;&gt;(order.Count);
+        foreach (var recNum in order)
+        {
+          var group = groups[recNum];
+
+          // Find the primary Segment-1 record
+          IDictionary&lt;string, object&gt; seg1 = null;
+          foreach (var r in group)
+            if (r.ContainsKey("SegmentNumber") &amp;&amp; r["SegmentNumber"]?.ToString() == "1")
+              { seg1 = r; break; }
+          if (seg1 == null) continue;
+
+          // Merge supplemental segments into Segment-1
+          foreach (var seg in group)
+          {
+            var segNum = seg.ContainsKey("SegmentNumber") ? seg["SegmentNumber"]?.ToString() : null;
+            if (segNum == "1") continue;
+
+            if (segNum == "2")
+            {
+              var note = seg.ContainsKey("Seg2UserNote") ? seg["Seg2UserNote"]?.ToString() : null;
+              var ctm  = seg.ContainsKey("Seg2CommentToMerchant") ? seg["Seg2CommentToMerchant"]?.ToString() : null;
+              var cfm  = seg.ContainsKey("Seg2CommentFromMerchant") ? seg["Seg2CommentFromMerchant"]?.ToString() : null;
+              if (!string.IsNullOrEmpty(note)) seg1["UserNote"] = note;
+              if (!string.IsNullOrEmpty(ctm))  seg1["CommentToMerchant"] = ctm;
+              if (!string.IsNullOrEmpty(cfm))  seg1["CommentFromMerchant"] = cfm;
+            }
+            else
+            {
+              var rc = seg.ContainsKey("Seg3ResearchComments") ? seg["Seg3ResearchComments"]?.ToString() : null;
+              if (!string.IsNullOrEmpty(rc)) seg1["ResearchComments"] = rc;
+            }
+          }
+
+          result.Add(seg1);
+        }
+        return result;
       </Code>
     </Massage>
   </Transformation>
@@ -437,6 +522,10 @@
         <string>ECI</string>
         <string>CommentsFromIssuer</string>
         <string>MerchantNumber</string>
+        <string>UserNote</string>
+        <string>CommentToMerchant</string>
+        <string>CommentFromMerchant</string>
+        <string>ResearchComments</string>
       </Fields>
     </Csv>
     <InvalidLog OutPath="$path/$name_INVALID" />
