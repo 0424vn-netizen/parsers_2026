@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	  <LangVersion>10.0</LangVersion>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+    <Version>1.0.8</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Etl.Core\Etl.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ParserHashData">
+      <HintPath>..\..\libraries\ParserHashData.dll</HintPath>
+    </Reference>
+    <Reference Include="ParserHashInterface">
+      <HintPath>..\..\libraries\ParserHashInterface.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

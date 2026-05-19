@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="1">
+    <Layout Direction="Row" EndOffset="1">
+      <Layout Direction="Column">
+        <Layout Direction="Row" StartOffset="0" End="," DataField="MerchantNumber" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="BatchNumber" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="ProcessDate" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="ProcessTime" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TransactionDate" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TranactionTime" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="CardNumber" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="CardExpirationDate" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TranCode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TransactionAmount" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AuthCode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="CardBrand" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AuthSource" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="POSEntryMode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="CardIDMeth" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="Currency" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TerminalID" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="MailPhone" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TipAmt" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="MCC" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AuthDate" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AuthResp" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="BankNetRef" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="ValCode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AuthAmt" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AuthChar" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TransactionID" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AVS" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="MarketInd" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TotAuthAmt" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="OrderNo" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="ReimburseAtt" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="IssuerICA" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="MCPurchase" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="MCBusCard" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="MCForeign" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="LocCode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="RPS" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="StrBatTranLink" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="TranSource" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="CATInd" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="ExtraCharges" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="CheckInDate" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="MCPOSCode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="UCAF" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="CardLevID" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="DiscProcCode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="DiscSTAN" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="Regulated" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="SortCode" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="Forced" />
+      </Layout>
+    </Layout>
+  </Extraction>
+  <Transformation>
+    <Fields>
+      <String Alias="FileSource" DataField="FileSource">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : null;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FileSource" DataField="FileSource">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : null;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MerchantNumber" DataField="MerchantNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="BatchNumber" DataField="BatchNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ProcessDate" DataField="ProcessDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ProcessTime" DataField="ProcessTime">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TransactionDate" DataField="TransactionDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TranactionTime" DataField="TranactionTime">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="CardNumber" DataField="CardNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"').Replace("x", "9") : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="Last4CardNumber" DataField="CardNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Hash Alias="HashedCardNumber" DataField="CardNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Hash>
+      <String Alias="CardExpirationDate" DataField="CardExpirationDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TranCode" DataField="TranCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TransactionAmount" DataField="TransactionAmount">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AuthCode" DataField="AuthCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CardBrand" DataField="CardBrand">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AuthSource" DataField="AuthSource">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="POSEntryMode" DataField="POSEntryMode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CardIDMeth" DataField="CardIDMeth">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Currency" DataField="Currency">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TerminalID" DataField="TerminalID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MailPhone" DataField="MailPhone">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TipAmt" DataField="TipAmt">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCC" DataField="MCC">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AuthDate" DataField="AuthDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AuthResp" DataField="AuthResp">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="BankNetRef" DataField="BankNetRef">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ValCode" DataField="ValCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AuthAmt" DataField="AuthAmt">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCC" DataField="MCC">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AuthChar" DataField="AuthChar">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TransactionID" DataField="TransactionID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AVS" DataField="AVS">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarketInd" DataField="MarketInd">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TotAuthAmt" DataField="TotAuthAmt">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="OrderNo" DataField="OrderNo">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ReimburseAtt" DataField="ReimburseAtt">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="IssuerICA" DataField="IssuerICA">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCPurchase" DataField="MCPurchase">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCBusCard" DataField="MCBusCard">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCForeign" DataField="MCForeign">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LocCode" DataField="LocCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="RPS" DataField="RPS">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="StrBatTranLink" DataField="StrBatTranLink">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TranSource" DataField="TranSource">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CATInd" DataField="CATInd">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ExtraCharges" DataField="ExtraCharges">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CheckInDate" DataField="CheckInDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCPOSCode" DataField="MCPOSCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UCAF" DataField="UCAF">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CardLevID" DataField="CardLevID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="DiscProcCode" DataField="DiscProcCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="DiscSTAN" DataField="DiscSTAN">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Regulated" DataField="Regulated">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SortCode" DataField="SortCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Forced" DataField="Forced">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+    </Fields>
+    <Massage GlobalVariables="int _recordId;string _prevMID;">
+      <Code>
+        var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+        foreach (var record in B)
+        {
+        record["FileSource"] = "EsquireTran";
+        record["RecordID"] = ++_recordId;
+        newB.Add(record);
+        }
+        return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+        <string>FileSource</string>
+        <string>MerchantNumber</string>
+        <string>BatchNumber</string>
+        <string>ProcessDate</string>
+        <string>ProcessTime</string>
+        <string>TransactionDate</string>
+        <string>TranactionTime</string>
+        <string>CardNumber</string>
+        <string>Last4CardNumber</string>
+        <string>HashedCardNumber</string>
+        <string>CardExpirationDate</string>
+        <string>TranCode</string>
+        <string>TransactionAmount</string>
+        <string>AuthCode</string>
+        <string>CardBrand</string>
+        <string>AuthSource</string>
+        <string>POSEntryMode</string>
+        <string>CardIDMeth</string>
+        <string>Currency</string>
+        <string>TerminalID</string>
+        <string>MailPhone</string>
+        <string>TipAmt</string>
+        <string>MCC</string>
+        <string>AuthDate</string>
+        <string>AuthResp</string>
+        <string>BankNetRef</string>
+        <string>ValCode</string>
+        <string>AuthAmt</string>
+        <string>MCC</string>
+        <string>AuthChar</string>
+        <string>TransactionID</string>
+        <string>AVS</string>
+        <string>MarketInd</string>
+        <string>TotAuthAmt</string>
+        <string>OrderNo</string>
+        <string>ReimburseAtt</string>
+        <string>IssuerICA</string>
+        <string>MCPurchase</string>
+        <string>MCBusCard</string>
+        <string>MCForeign</string>
+        <string>LocCode</string>
+        <string>RPS</string>
+        <string>StrBatTranLink</string>
+        <string>TranSource</string>
+        <string>CATInd</string>
+        <string>ExtraCharges</string>
+        <string>CheckInDate</string>
+        <string>MCPOSCode</string>
+        <string>UCAF</string>
+        <string>CardLevID</string>
+        <string>DiscProcCode</string>
+        <string>DiscSTAN</string>
+        <string>Regulated</string>
+        <string>SortCode</string>
+        <string>Forced</string>
+        <string>RecordID</string>
+      </Fields>
+    </Csv>
+    <ValidLog OutPath="$path/$name_LOG">
+      <CustomFields>
+        <CustomField Text="FileSource" Value="AUTH" Force="true" />
+        <CustomField Text="FileTrailer" Value="1" Force="true"/>
+        <CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+        <CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+      </CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID" />
+  </Loaders>
+</Etl>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="1">
+    <Layout Direction="Row" Start="\A[^FT]" EndOffset="1" Require="false" Repeat="false" >
+      <Layout Direction="Column" StartOffset="0" EndOffset="1" DataField="MIF" Repeat="false">
+        <Layout Direction="Row" StartOffset="1" End="&quot;,&quot;" DataField="MerchantName" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;," DataField="BusinessDescription" />
+        <Layout Direction="Row" StartOffset="2" End="," DataField="AverageTransaction" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="LargestTransaction" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="ProcessingVolume" />
+        <Layout Direction="Row" StartOffset="1" End=",&quot;" DataField="RiskExposure" />
+        <Layout Direction="Row" StartOffset="2" End="&quot;,&quot;" DataField="MCC" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MID" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MerchantContactName" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MerchantContactPhonne" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;," DataField="MerchantContactEmail" />
+        <Layout Direction="Row" StartOffset="2" End=",&quot;" DataField="BoardedAt" />
+        <Layout Direction="Row" StartOffset="2" End="&quot;," DataField="URL" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MasterMerchantAccount" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;," DataField="ReserveMerchant" />
+        <Layout Direction="Row" StartOffset="2" End=",&quot;" DataField="TargetReserve" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="TaxID" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="Ownership" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="DiscountMethod" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="BusinessType" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AgentNumber" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="OfficeName" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="Status" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="StrCorpAdd1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="StrDBACity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="StrDBAState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;" DataField="StrDBAZip" />
+      </Layout>
+
+    </Layout>
+  </Extraction>
+  <Transformation>
+    <Fields>
+
+      <String Alias="Last4TaxId" DataField="TaxID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Hash Alias="HashedTaxId" DataField="TaxID" />
+      <Encrypt Alias="EncryptedTaxId" DataField="TaxID"></Encrypt>
+      <String Alias="MID" DataField="MID">
+        <Actions>
+          <CheckPattern Order="-1" Pattern="(^$)|(^\d+$)" />
+          <CSharp Order="-2">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MerchantNumberNumeric" DataField="MID">
+        <Actions>
+          <CheckPattern Order="-1" Pattern="(^$)|(^\d+$)" />
+        </Actions>
+      </String>
+      <String Alias="ProcessingVolume" DataField="ProcessingVolume">
+        <Actions>
+          <CSharp Order="-2">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V : 0;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AverageTransaction" DataField="AverageTransaction">
+        <Actions>
+          <CSharp Order="-2">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V : 0;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LargestTransaction" DataField="LargestTransaction">
+        <Actions>
+          <CSharp Order="-2">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V : 0;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+	 <String Alias="Address1" DataField="StrCorpAdd1">		
+     </String>
+	 <String Alias="City" DataField="StrDBACity">		
+     </String>
+	 <String Alias="State" DataField="StrDBAState">		
+     </String>
+	 <String Alias="Zip" DataField="StrDBAZip">		
+     </String>
+	<String Alias="BusinessDescription" DataField="BusinessDescription">
+        <Actions>
+          <CSharp Order="-2">
+            <Code>
+              return !string.IsNullOrEmpty(V) ?  Regex.Replace(V, "&(?![a-z]{1,};)", "&"); : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>	 
+    </Fields>
+    <Massage GlobalVariables="int _recordId;">
+      <Code>
+        var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+        foreach (var record in B)
+        {
+          record["RecordID"] = ++_recordId;
+          record["FileSource"] = "ESQR";
+          record["ASClientID"] = "200";
+          record["BackEndProcessor"] = "ESQR";
+          if (!record.ContainsKey("MID"))
+          continue;
+          newB.Add(record);
+        }
+        return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Console/>
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+        <string>ASClientID</string>
+        <string>MerchantName</string>
+        <string>BusinessDescription</string>
+        <string>AverageTransaction</string>
+        <string>LargestTransaction</string>
+        <string>ProcessingVolume</string>
+        <string>RiskExposure</string>
+        <string>MCC</string>
+        <string>MID</string>
+        <string>MerchantContactName</string>
+        <string>MerchantContactPhonne</string>
+        <string>MerchantContactEmail</string>
+        <string>BoardedAt</string>
+        <string>URL</string>
+        <string>MasterMerchantAccount</string>
+        <string>ReserveMerchant</string>
+        <string>TargetReserve</string>
+        <string>EncryptedTaxId</string>
+        <string>HashedTaxId</string>
+        <string>Last4TaxId</string>
+        <string>Ownership</string>
+        <string>DiscountMethod</string>
+        <string>BusinessType</string>
+        <string>AgentNumber</string>
+        <string>OfficeName</string>
+        <string>Status</string>
+        <string>BackEndProcessor</string>
+        <string>MerchantNumberNumeric</string>		
+		<string>Address1</string>
+		<string>City</string>
+		<string>State</string>
+		<string>Zip</string>
+      </Fields>
+    </Csv>
+    <ValidLog OutPath="$path/$name_LOG">
+      <CustomFields>
+        <CustomField Text="FileType" Value="SUPP_MIF"  Force="true" />
+        <CustomField Text="FileTrailer" Value="1" Force="true"/>
+        <CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+        <CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+      </CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID"/>
+  </Loaders>
+</Etl>

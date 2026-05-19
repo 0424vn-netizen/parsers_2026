@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="2">       
+	   <Layout Direction="Row" EndOffset="1">
+			<Layout Direction="Column" DataField="Sup">			  
+					<Layout Direction="Row" StartOffset="1" End="&quot;," DataField="MerchantId" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="PosMerchantId" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="MCC" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="LegalName" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="DBA" />
+					<Layout Direction="Row" StartOffset="2" End="," DataField="KeyedPercentage" />
+					<Layout Direction="Row" StartOffset="1" End="," DataField="SwipedPercentage" />
+					<Layout Direction="Row" StartOffset="2" End="&quot;," DataField="ApprovalDate" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="OwnerName" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="OwnerSSN" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="OwnerDOB" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="Website" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="Street" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="City" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="State" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="Zip"/>
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="Status"/>
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="Descriptor" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="MonthlyVolume" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="AverageTicket" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="SalesCountVisa" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="SalesVolumeVisa" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;," DataField="SalesCountMC" />
+					<Layout Direction="Row" StartOffset="3" End="&quot;" DataField="SalesVolumeMC" />
+			  </Layout>
+		</Layout>
+  </Extraction>
+  <Transformation>
+    <Fields>              				
+    </Fields>
+    <Massage GlobalVariables="int _recordId;">
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Console/>
+    <Csv OutPath="$path/$name_VALID" Delemiter="|">
+      <Fields>
+        <string>MerchantId</string>
+        <string>PosMerchantId</string>
+        <string>MCC</string>
+        <string>LegalName</string>
+        <string>DBA</string>
+        <string>KeyedPercentage</string>
+        <string>SwipedPercentage</string>
+        <string>ApprovalDate</string>
+        <string>OwnerName</string>
+        <string>OwnerSSN</string>
+        <string>OwnerDOB</string>	
+		<string>Website</string>
+		<string>Street</string>
+		<string>City</string>	
+		<string>State</string>	
+		<string>Zip</string>	
+		<string>Status</string>	
+		<string>Descriptor</string>	
+		<string>MonthlyVolume</string>	
+		<string>AverageTicket</string>	
+		<string>SalesCountVisa</string>	
+		<string>SalesVolumeVisa</string>	
+		<string>SalesCountMC</string>	
+		<string>SalesVolumeMC</string>	
+      </Fields>
+    </Csv>
+    <ValidLog OutPath="$path/$name_LOG"> 
+		<CustomFields>
+		<CustomField Text="FileType" Value="SupMIF"  Force="true" />
+		<CustomField Text="FileTrailer" Value="1" Force="true"/>
+		<CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+		<CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+		</CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID"/>	
+  </Loaders>
+</Etl>

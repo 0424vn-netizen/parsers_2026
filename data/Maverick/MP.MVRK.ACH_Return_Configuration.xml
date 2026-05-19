@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="1">
+       <Layout Direction="Row" StartOffset="0" MaxStart="0" End="\ATRAILER" >
+			  <Layout Direction="Column" StartOffset="0" EndOffset="1" DataField="ACH_RETURN" Repeat="true">
+					<Layout Direction="Row" StartOffset="0" End="," DataField="BANK_TRAN_CODE" />
+					<Layout Direction="Row" StartOffset="1" End="," DataField="TRANSACTION_CODE" />
+					<Layout Direction="Row" StartOffset="1" End="," DataField="DDA_ACCOUNT" />
+					<Layout Direction="Row" StartOffset="1" End="," DataField="MERCHANT_NUMBER" />
+					<Layout Direction="Row" StartOffset="1" End=",\d" DataField="MERCHANT_NAME" />
+					<Layout Direction="Row" StartOffset="2" End="," DataField="TRANSACTION_AMOUNT" />					
+					<Layout Direction="Row" StartOffset="1" End="," DataField="EFFECTIVE_DATE" />					
+					<Layout Direction="Row" StartOffset="1" End="," DataField="RETURN_REASON" />
+					<Layout Direction="Row" StartOffset="1" End="," DataField="RETURN_REASON_CD" />
+					
+			  </Layout>
+		</Layout>
+  </Extraction>
+  <Transformation>
+    <Fields>
+              <Array Alias="ACH_RETURN" DataField="ACH_RETURN" Flat="true">
+			  	<Fields>	
+				  <String Alias="TRANSACTION_AMOUNT" DataField="TRANSACTION_AMOUNT">
+						<Actions>
+							<CSharp Order="-1"  >
+								<Code>
+									return !string.IsNullOrEmpty(V) ? Decimal.Parse(V.Trim('"')).ToString("N2") : null;
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>				
+					<Encrypt Alias="BANK_TRAN_CODE" DataField="BANK_TRAN_CODE">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</Encrypt>
+					<String Alias="DB_CR_Flag" DataField="TRANSACTION_CODE">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<Encrypt Alias="DDA_ACCOUNT" DataField="DDA_ACCOUNT">
+						<Actions>
+							<CheckPattern Order="-1" Pattern="(^$)|(^\d+$)" />
+							<CSharp Order="-2">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</Encrypt>
+					<String Alias="Last4DDANumber" DataField="DDA_ACCOUNT">
+						<Actions>
+							<SubString Order="0" Start= "\d{4}$" StartOffset="0" EndOffset="4" />
+							<CSharp Order="-1">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<String Alias="Last4RoutingNumber" DataField="BANK_TRAN_CODE">
+						<Actions>
+							<SubString Order="0" Start= "\d{4}$" StartOffset="0" EndOffset="4" />
+							<CSharp Order="-1">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<String Alias="MERCHANT_NUMBER" DataField="MERCHANT_NUMBER">
+						<Actions>							
+							<CSharp Order="-2">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<String Alias="MERCHANT_NAME" DataField="MERCHANT_NAME">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>	
+					<String Alias="RETURN_REASON_CD" DataField="RETURN_REASON_CD">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>		
+					<String Alias="RETURN_REASON" DataField="RETURN_REASON">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>					
+					<String Alias="EFFECTIVE_DATE" DataField="EFFECTIVE_DATE">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>	
+									return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+				</Fields>
+              </Array>
+    </Fields>
+    <Massage GlobalVariables="int _recordId;">
+      <Code>var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+                            foreach (var record in B)
+                            {
+                                record["RecordID"] = ++_recordId;
+                                record["REPORT_DATE"] = "1900/01/01";
+                                record["FILE_SOURCE"] = "ACH_RETURN";
+                                if (!record.ContainsKey("MERCHANT_NUMBER"))
+                                continue;
+								if(record["RETURN_REASON_CD"].ToString().StartsWith("C"))
+								continue;
+                                newB.Add(record);
+                            }
+                            return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Console/>
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+        <string>FILE_SOURCE</string>
+        <string>REPORT_DATE</string>
+        <string>REPORT_TIME</string>
+        <string>BANK_TRAN_CODE</string>
+		<string>DB_CR_Flag</string>
+        <string>Last4RoutingNumber</string>
+        <string>DDA_ACCOUNT</string>
+        <string>Last4DDANumber</string>
+        <string>MERCHANT_NUMBER</string>
+        <string>MERCHANT_NAME</string>
+        <string>TRANSACTION_AMOUNT</string>     
+        <string>EFFECTIVE_DATE</string>       
+        <string>RETURN_REASON_CD</string>
+        <string>RETURN_REASON</string>        
+      </Fields>
+    </Csv>
+    <ValidFile OutPath="$path/$name_LOG"> 
+		<CustomFields>
+		<CustomField Text="FileType" Value="ACH_RETURN"  Force="true" />
+		<CustomField Text="FileTrailer" Value="1" Force="true"/>
+		<CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+		<CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+		</CustomFields>
+    </ValidFile>
+    <InvalidFile OutPath="$path/$name_INVALID"/>	
+  </Loaders>
+</Etl>

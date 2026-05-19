@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="1">
+        <Layout Direction="Row" EndOffset="1">
+			<Layout Direction="Column">
+				<Layout Direction="Row" StartOffset="1" End="&quot;;&quot;" DataField="MerchantNumber" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AppID" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="LegalName" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="DBA" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="Address" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="City" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="State" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="Zip" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="Country" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="MCC" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="RootID" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="RootAgent" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AgentOwnerID" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AgentOwnerName" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="SubAgentID" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="SubAgentName" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="DateApproved" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AutoApproved" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="Website" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ProductOrServices" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AgentSharedLiability" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="SalesMethod" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="CustomerProfile" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="CustomerLocation" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AcqMonthlyVolume" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AcqAverageTicket" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AcqMaxTransaction" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="Reserve" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ReserveBalance" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="RiskLevel" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="RiskCategory" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="Campaign" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="CampaignID" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="VisaRegistration" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="McRegistration" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="DiscoverRegistration" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="AmexRegistration" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="NonDeliveryExposure" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ElevatedDisputes" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="EnhancedDueDiligence" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="RdrResolutions" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="UsPrincipal" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="PersonalGuarantee" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID1" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID2" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID3" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID4" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID5" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID6" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID7" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID8" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID9" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID10" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID11" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID12" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID13" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID14" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID15" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID16" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID17" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID18" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;;&quot;" DataField="ID19" />
+				<Layout Direction="Row" StartOffset="3" End="&quot;" DataField="ID20" />				
+			  </Layout>
+		</Layout>
+  </Extraction>
+  <Transformation>  
+	<Fields>	  
+		<String Alias="MerchantNumber" DataField="MerchantNumber">
+			<Actions>
+				<CheckPattern Order="-1" Pattern="(^\d+$)" />
+				<CSharp Order="-2">
+					<Code>
+						return !string.IsNullOrEmpty(V) ? V : "";
+					</Code>
+				</CSharp>
+			</Actions>
+		</String>
+		
+		<String Alias="RootID" DataField="RootID">
+			<Actions>
+			  <CSharp Order="-1">
+				<Code>				  
+				  return !string.IsNullOrEmpty(V) ? V.Trim('-') : "";
+				</Code>
+			  </CSharp>
+			</Actions>
+		</String>
+		<String Alias="RootAgent" DataField="RootAgent">
+			<Actions>
+			  <CSharp Order="-1">
+				<Code>				  
+				  return !string.IsNullOrEmpty(V) ? V.Trim('-') : "";
+				</Code>
+			  </CSharp>
+			</Actions>
+		</String>
+		<String Alias="AgentOwnerID" DataField="AgentOwnerID">
+			<Actions>
+			  <CSharp Order="-1">
+				<Code>				  
+				  return !string.IsNullOrEmpty(V) ? V.Trim('-') : "";
+				</Code>
+			  </CSharp>
+			</Actions>
+		</String>
+		<String Alias="AgentOwnerName" DataField="AgentOwnerName">
+			<Actions>
+			  <CSharp Order="-1">
+				<Code>				  
+				  return !string.IsNullOrEmpty(V) ? V.Trim('-') : "";
+				</Code>
+			  </CSharp>
+			</Actions>
+		</String>
+		 <String Alias="SubAgentID" DataField="SubAgentID">
+			<Actions>
+			  <CSharp Order="-1">
+				<Code>				  
+				  return !string.IsNullOrEmpty(V) ? V.Trim('-') : "";
+				</Code>
+			  </CSharp>
+			</Actions>
+		</String>
+		
+    </Fields>		
+    <Massage GlobalVariables="int _recordId;">
+      <Code>var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+                            foreach (var record in B)
+                            {
+                                record["RecordID"] = ++_recordId;
+                                record["FileSource"] = "SupMIF";
+								if (record["MerchantNumber"].ToString().Contains("Merchant") || record["MerchantNumber"].ToString().Contains("FT"))
+								continue;
+                                newB.Add(record);
+
+                            }
+                            return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Console/>
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+        <string>MerchantNumber</string>
+		<string>AppID</string>
+		<string>LegalName</string>
+		<string>DBA</string>
+		<string>Address</string>
+		<string>City</string>
+		<string>State</string>
+		<string>Zip</string>
+		<string>Country</string>
+		<string>MCC</string>
+		<string>RootID</string>
+		<string>RootAgent</string>
+		<string>AgentOwnerID</string>
+		<string>AgentOwnerName</string>
+		<string>SubAgentID</string>
+		<string>SubAgentName</string>
+		<string>DateApproved</string>
+		<string>AutoApproved</string>
+		<string>Website</string>
+		<string>ProductOrServices</string>
+		<string>AgentSharedLiability</string>
+		<string>SalesMethod</string>
+		<string>CustomerProfile</string>
+		<string>CustomerLocation</string>
+		<string>AcqMonthlyVolume</string>
+		<string>AcqAverageTicket</string>
+		<string>AcqMaxTransaction</string>
+		<string>Reserve</string>
+		<string>ReserveBalance</string>
+		<string>RiskLevel</string>
+		<string>RiskCategory</string>
+		<string>Campaign</string>
+		<string>CampaignID</string>
+		<string>VisaRegistration</string>
+		<string>McRegistration</string>
+		<string>DiscoverRegistration</string>
+		<string>AmexRegistration</string>
+		<string>NonDeliveryExposure</string>
+		<string>ElevatedDisputes</string>
+		<string>EnhancedDueDiligence</string>
+		<string>RdrResolutions</string>
+		<string>UsPrincipal</string>
+		<string>PersonalGuarantee</string>
+		<string>ID1</string>
+		<string>ID2</string>
+		<string>ID3</string>
+		<string>ID4</string>
+		<string>ID5</string>
+		<string>ID6</string>
+		<string>ID7</string>
+		<string>ID8</string>
+		<string>ID9</string>
+		<string>ID10</string>
+		<string>ID11</string>
+		<string>ID12</string>
+		<string>ID13</string>
+		<string>ID14</string>
+		<string>ID15</string>
+		<string>ID16</string>
+		<string>ID17</string>
+		<string>ID18</string>
+		<string>ID19</string>
+		<string>ID20</string>
+      </Fields>
+    </Csv>
+    <ValidLog OutPath="$path/$name_LOG"> 
+		<CustomFields>
+		<CustomField Text="FileType" Value="SupMIF"  Force="true" />
+		<CustomField Text="FileTrailer" Value="1" Force="true"/>
+		<CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+		<CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+		</CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID"/>	
+  </Loaders>
+</Etl>

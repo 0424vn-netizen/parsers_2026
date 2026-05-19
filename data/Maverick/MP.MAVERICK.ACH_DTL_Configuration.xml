@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="0">
+    <Layout Direction="Row" EndOffset="1">
+      <Layout Direction="Column">
+        <Layout Direction="Row" StartOffset="0" End="\t" DataField="BankNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="GroupNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="AssociationNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="MerchantNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="MerchantDBA" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="RecordType" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="SequenceNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="ProcessingDate" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="ESID" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="EffectiveDate" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="RoutingNumber" Require="true"/>
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="DdaNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="AccountType" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="AchHierarchyLevel" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="AchTable" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="ReferenceNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="TransactionTypes" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="CardType" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="Amount" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="DebitOrCredit" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="ChargebackCaseNumber" />
+        <Layout Direction="Row" StartOffset="1" End="\t" DataField="FundingDept" />
+      </Layout>
+    </Layout>
+  </Extraction>
+  <Transformation>
+    <Fields>
+      <String Alias="FileSource" DataField="FileSource">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : null;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="BankNumber" DataField="BankNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="GroupNumber" DataField="GroupNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AssociationNumber" DataField="AssociationNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MerchantNumber" DataField="MerchantNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MerchantDBA" DataField="MerchantDBA">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="RecordType" DataField="RecordType">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SequenceNumber" DataField="SequenceNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ProcessingDate" DataField="ProcessingDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ESID" DataField="ESID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="EffectiveDate" DataField="EffectiveDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="RoutingNumber" DataField="RoutingNumber" Require="false">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="Last4RoutingNumber" DataField="RoutingNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="DdaNumber" DataField="DdaNumber" Require="false">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="Last4DDANumber" DataField="DdaNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AccountType" DataField="AccountType">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AchHierarchyLevel" DataField="AchHierarchyLevel">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AchTable" DataField="AchTable">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ReferenceNumber" DataField="ReferenceNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TransactionTypes" DataField="TransactionTypes">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CardType" DataField="CardType">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Amount" DataField="Amount">
+        <Actions>
+          <CSharp Order="19">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : null;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="DebitOrCredit" DataField="DebitOrCredit">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="ChargebackCaseNumber" DataField="ChargebackCaseNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FundingDept" DataField="FundingDept">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="RecordID" DataField="RecordID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return V;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+    </Fields>
+    <Massage GlobalVariables="int _recordId;string _prevMID;">
+      <Code>var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+        foreach (var record in B)
+        {
+          if (record["RecordType"].ToString() == "T") {
+            continue;
+          }
+          record["FileSource"] = "ACH_5546";
+          if(_prevMID != record["MerchantNumber"].ToString()) {
+            ++_recordId;
+            _prevMID = !string.IsNullOrEmpty(record["MerchantNumber"].ToString()) ? record["MerchantNumber"].ToString() : "";
+          }
+          record["RecordID"] = _recordId;
+          newB.Add(record);
+        }
+        return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+        <string>FileSource</string>
+        <string>BankNumber</string>
+        <string>GroupNumber</string>
+        <string>AssociationNumber</string>
+        <string>MerchantNumber</string>        
+        <string>MerchantDBA</string>
+        <string>RecordType</string>
+        <string>SequenceNumber</string>
+        <string>ProcessingDate</string>
+        <string>ESID</string>
+        <string>EffectiveDate</string>
+        <string>RoutingNumber</string>
+        <string>Last4RoutingNumber</string>
+        <string>DdaNumber</string>
+        <string>Last4DdaNumber</string>
+        <string>AccountType</string>
+        <string>AchHierarchyLevel</string>
+        <string>AchTable</string>
+        <string>ReferenceNumber</string>
+        <string>TransactionTypes</string>
+        <string>CardType</string>
+        <string>Amount</string>
+        <string>DebitOrCredit</string>
+        <string>ChargebackCaseNumber</string>
+        <string>FundingDept</string>
+        <string>RecordID</string>
+      </Fields>
+    </Csv>
+    <ValidLog OutPath="$path/$name_LOG" Delimiter="|">
+      <CustomFields>
+        <CustomField Text="RecordType" Value="D" Force="true" />
+        <CustomField Text="FileTrailer" Value="1" Force="true"/>
+        <CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+        <CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+      </CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID" Delimiter="|" />
+  </Loaders>
+</Etl>

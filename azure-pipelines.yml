@@ -1,0 +1,89 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+#name: $(majorMinorVersion).$(rev:r)
+
+trigger:
+- master
+
+pool: 
+  name: VNAgent34
+
+variables:
+  majorMinorVersion: 1.0
+  BuildConfiguration: 'release'
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet 5.10.0'
+  inputs:
+    versionSpec: 5.10.0
+  enabled: true
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: src/*.sln
+    vstsFeed: 'AperiaDev'
+  enabled: false
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    projects: src/*.sln
+    arguments: '-c $(BuildConfiguration)'
+
+# - task: NuGetCommand@2
+#   displayName: 'NuGet pack Core'
+#   inputs:
+#     command: pack
+#     //versioningScheme: byBuildNumber
+#     packagesToPack: src/Etl.Core/Etl.Core.csproj
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'NuGet pack Core'
+#   inputs:
+#     command: pack
+#     packagesToPack: src/Etl.Core/Etl.Core.csproj
+#     nobuild: true
+#     versioningScheme: 'off'
+
+- task: DotNetCoreCLI@2
+  displayName: "dotnet pack"
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    nobuild: true
+    versioningScheme: 'off'
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+#     nuGetFeedType: 'internal'
+#     publishVstsFeed: '39fa4075-acbf-403a-a11c-e89ccfda4612'
+
+# - task: NuGetCommand@2
+#   displayName: 'NuGet pack Tranformation'
+#   inputs:
+#     command: pack
+#     //versioningScheme: byBuildNumber
+#     packagesToPack: src/Etl.Tranformation/Etl.Tranformation.csproj
+
+# - task: DotNetCoreCLI@2
+#   displayName: 'NuGet pack Tranformation'
+#   inputs:
+#     command: pack
+#     packagesToPack: src/Etl.Tranformation/Etl.Tranformation.csproj
+#     nobuild: true
+#     versioningScheme: 'off'
+
+- task: NuGetCommand@2
+  displayName: "Push to Artifact"
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '39fa4075-acbf-403a-a11c-e89ccfda4612'
+    allowPackageConflicts: true

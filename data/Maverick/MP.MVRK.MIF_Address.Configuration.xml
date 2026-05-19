@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="0"> 
+    <Layout Direction="Row" StartOffset="0" MaxStart="0" End="\A$" Require="false" DataField="AA" Repeat="false" >	
+	  <Layout Direction="Row" Start="^HEADER" EndOffset="0" Require="false" Repeat="false" > 
+			<Layout Direction="Column" StartOffset="0" EndOffset="0" DataField="BATCH_HEADER" Repeat="false">
+				<Layout Direction="Row" StartOffset="102" End="\t" DataField="ReportDate" Repeat="false" />
+			</Layout>
+	   </Layout>	
+	  <Layout Direction="Column" StartOffset="1" EndOffset="0" DataField="MIF_ADDRESS" Repeat="true">
+		 <Layout Direction="Row" StartOffset="0" End="\t" DataField="BankNumber" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="MerchantNumber" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="AddressSource" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="AddressCode" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="MerchantName" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="Attention" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="Address" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="City" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="State" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="Zip" Repeat="false" />
+		 <Layout Direction="Row" StartOffset="1" End="\t" DataField="UpdatedDTS" Repeat="false" />		 
+	  </Layout>
+	
+ </Layout>
+  </Extraction>
+  <Transformation>	
+ <Fields> 
+ <String Alias="ReportDate" DataField="ReportDate">
+		<Actions>						
+			<CSharp Order="0">
+				<Code>								
+					return V == null || V.Length &lt; 7 ? null : V.Substring(4, 2) + "/" + V.Substring(6, 2) + "/" + V.Substring(0, 4)
+				</Code>
+			</CSharp>
+		</Actions>
+	</String>
+     <Array Alias="MIF_ADDRESS" DataField="MIF_ADDRESS" Flat="true">
+			<Fields>
+				<String Alias="UpdatedDTS" DataField="UpdatedDTS">
+					<Actions>
+						<SubString Order="0" StartOffset="0" EndOffset="10" />
+						<CSharp Order="0">
+							<Code>
+								V = V != null ? V.Replace("-", "") : V;
+								return V == null || V.Length &lt; 6 ? null : V.Substring(4, 2) + "/" + V.Substring(6, 2) + "/" + V.Substring(0, 4);
+							</Code>
+						</CSharp>
+					</Actions>
+				</String>
+				<String Alias="MerchantNumber" DataField="MerchantNumber">
+					<Actions>
+						<CheckPattern Order="0" Pattern="(^\d+$)" />
+						<CSharp Order="0">
+							<Code>	
+								if( V != null &amp;&amp; V.Length &gt; 2)
+								{
+									while (V.StartsWith("0"))
+									{
+										V = V.Substring(1);
+									}
+									V = V.Trim();
+									return V.Length &lt; 4 ? V : V.Substring(4);	
+								}	
+								return V;
+							</Code>
+						</CSharp>
+					</Actions>
+				</String>
+			</Fields>				
+		  </Array>
+    </Fields>
+    <Massage GlobalVariables="int _recordId; string report_date;">
+      <Code>var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+	 
+                            foreach (var record in B)
+                            {
+								++_recordId;
+								if ( record.ContainsKey("BankNumber") &amp;&amp; record["BankNumber"].ToString() == "TRAILER") 
+                                	continue; 
+								
+								record["FileSource"] = "TSYS";								
+								newB.Add(record);
+								
+                            }
+                            return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Console/>
+    <Csv OutPath="$path/$name_VALID" Delimiter="~~|~~">
+      <Fields>
+        <string>FileSource</string>
+        <string>ReportDate</string>
+        <string>BankNumber</string>
+        <string>MerchantNumber</string>
+        <string>AddressSource</string>
+        <string>AddressCode</string>
+        <string>MerchantName</string>
+        <string>Attention</string>
+        <string>Address</string>
+        <string>City</string>
+        <string>State</string>
+        <string>Zip</string>
+        <string>UpdatedDTS</string>		
+       </Fields>
+    </Csv>
+    <ValidLog OutPath="$path/$name_LOG"> 
+		<CustomFields>
+		<CustomField Text="FileType" Value="MIF_ADDRESS"  Force="true" />
+		<CustomField Text="FileTrailer" Value="1" Force="true"/>
+		<CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+		<CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+		</CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID"/>	
+  </Loaders>
+</Etl>

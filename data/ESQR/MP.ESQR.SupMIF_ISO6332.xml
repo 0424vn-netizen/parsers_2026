@@ -1,0 +1,1342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="1">
+    <Layout Direction="Row" EndOffset="1">
+      <Layout Direction="Column">
+        <Layout Direction="Row" StartOffset="1" End="&quot;,&quot;" DataField="MerchantID" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="Association" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="DBAName" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="BANK" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="Incorporation" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="TermOfAgreement" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PricingOption" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SeasonalMerchant" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JanSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FebSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MarSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AprSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MaySeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JunSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JulSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AugSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SepSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="OctSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="NovSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="DecSeasonal" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="EquipmentServiceLevel" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SupplyServiceLevel" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SalesCode" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="DateOpened" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SIC" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MCC" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MCCDescription" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="Rush" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MerchantEmailAddress" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MerchantWebSite" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PrimaryOwnerName" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PrimaryDateofBirth" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PrimarySSN" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PrimaryDriversLicense" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PrimaryDriversLicenseIssuingState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PrimaryBusinessLicense" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SecondaryOwnerName" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SecondaryDateofBirth" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SecondarySSN" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SecondaryDriversLicense" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SecondaryDriversLicenseIssuingState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="SecondaryBusinessLicense" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="NatureofBusiness" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="Center" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="CreditStatus" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="DeclineReasonCode" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="CreditBureau" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="BusinessType" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="CreditSpecialist" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AdditionalApprover" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FICOScore" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="RiskType" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="NonTSYSGiftCardProvider" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="UserFlag1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="UserFlag2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="UserData1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="UserData2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="UserData3" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="UserData4" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="UserData5" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;" DataField="Account1" />
+        <Layout Direction="Row" StartOffset="2" End="," DataField="PercentageKeyEntered" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AverageTicket" />
+        <Layout Direction="Row" StartOffset="1" End="," DataField="AnnualVolume" />
+        <Layout Direction="Row" StartOffset="2" End="&quot;,&quot;" DataField="Status" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="OriginalBoardDate" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="Phone" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FederalTaxID" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MerchantDDA" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MerchantTransitRoutingNumber" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="LegalAddressLine1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="LegalAddressLine2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="LegalCity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="LegalState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="LegalZip" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="LegalCountry" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="LegalEmailAddress" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PhysicalAddressLine1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PhysicalAddressLine2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PhysicalCity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PhysicalState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PhysicalZip" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="PhysicalCountry" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FebAddressLine1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FebAddressLine2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FebCity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FebState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FebZip" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="FebCountry" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MarAddressLine1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MarAddressLine2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MarCity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MarState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MarZip" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MarCountry" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AprAddressLine1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AprAddressLine2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AprCity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AprState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AprZip" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="AprCountry" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MayAddressLine1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MayAddressLine2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MayCity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MayState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MayZip" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="MayCountry" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JunAddressLine1" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JunAddressLine2" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JunCity" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JunState" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;,&quot;" DataField="JunZip" />
+        <Layout Direction="Row" StartOffset="3" End="&quot;" DataField="JunCountry" />
+      </Layout>
+    </Layout>
+  </Extraction>
+  <Transformation>
+    <Fields>
+      <String Alias="FileSource" DataField="FileSource">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : null;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FileSource" DataField="FileSource">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : null;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MerchantID" DataField="MerchantID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Association" DataField="Association">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="DBAName" DataField="DBAName">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="BANK" DataField="BANK">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Incorporation" DataField="Incorporation">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="TermOfAgreement" DataField="TermOfAgreement">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PricingOption" DataField="PricingOption">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SeasonalMerchant" DataField="SeasonalMerchant">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JanSeasonal" DataField="JanSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FebSeasonal" DataField="FebSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarSeasonal" DataField="MarSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AprSeasonal" DataField="AprSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MaySeasonal" DataField="MaySeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JunSeasonal" DataField="JunSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JulSeasonal" DataField="JulSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AugSeasonal" DataField="AugSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SepSeasonal" DataField="SepSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="OctSeasonal" DataField="OctSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="NovSeasonal" DataField="NovSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="DecSeasonal" DataField="DecSeasonal">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="EquipmentServiceLevel" DataField="EquipmentServiceLevel">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SupplyServiceLevel" DataField="SupplyServiceLevel">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SalesCode" DataField="SalesCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="DateOpened" DataField="DateOpened">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SIC" DataField="SIC">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCC" DataField="MCC">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MCCDescription" DataField="MCCDescription">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Rush" DataField="Rush">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MerchantEmailAddress" DataField="MerchantEmailAddress">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MerchantWebSite" DataField="MerchantWebSite">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PrimaryOwnerName" DataField="PrimaryOwnerName">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PrimaryDateofBirth" DataField="PrimaryDateofBirth">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="PrimarySSN" DataField="PrimarySSN">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="PrimaryDriversLicense" DataField="PrimaryDriversLicense">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PrimaryDriversLicenseIssuingState" DataField="PrimaryDriversLicenseIssuingState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PrimaryBusinessLicense" DataField="PrimaryBusinessLicense">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SecondaryOwnerName" DataField="SecondaryOwnerName">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SecondaryDateofBirth" DataField="SecondaryDateofBirth">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="SecondarySSN" DataField="SecondarySSN">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="SecondaryDriversLicense" DataField="SecondaryDriversLicense">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SecondaryDriversLicenseIssuingState" DataField="SecondaryDriversLicenseIssuingState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="SecondaryBusinessLicense" DataField="SecondaryBusinessLicense">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="NatureofBusiness" DataField="NatureofBusiness">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Center" DataField="Center">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CreditStatus" DataField="CreditStatus">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="DeclineReasonCode" DataField="DeclineReasonCode">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CreditBureau" DataField="CreditBureau">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="BusinessType" DataField="BusinessType">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="CreditSpecialist" DataField="CreditSpecialist">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AdditionalApprover" DataField="AdditionalApprover">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FICOScore" DataField="FICOScore">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="RiskType" DataField="RiskType">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="NonTSYSGiftCardProvider" DataField="NonTSYSGiftCardProvider">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UserFlag1" DataField="UserFlag1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UserFlag2" DataField="UserFlag2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UserData1" DataField="UserData1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UserData2" DataField="UserData2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UserData3" DataField="UserData3">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UserData4" DataField="UserData4">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="UserData5" DataField="UserData5">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Account1" DataField="Account1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PercentageKeyEntered" DataField="PercentageKeyEntered">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AverageTicket" DataField="AverageTicket">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AnnualVolume" DataField="AnnualVolume">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Status" DataField="Status">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="OriginalBoardDate" DataField="OriginalBoardDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="Phone" DataField="Phone">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="FederalTaxID" DataField="FederalTaxID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="Last4FederalTaxID" DataField="FederalTaxID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="MerchantDDA" DataField="MerchantDDA" Require="false">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="Last4MerchantDDA" DataField="MerchantDDA">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <Encrypt Alias="MerchantTransitRoutingNumber" DataField="MerchantTransitRoutingNumber" Require="false">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </Encrypt>
+      <String Alias="Last4MerchantTransitRoutingNumber" DataField="MerchantTransitRoutingNumber">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? (V.Length > 4 ? V.Substring(V.Length - 4) : V) : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LegalAddressLine1" DataField="LegalAddressLine1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LegalAddressLine2" DataField="LegalAddressLine2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LegalCity" DataField="LegalCity">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LegalState" DataField="LegalState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LegalZip" DataField="LegalZip">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LegalCountry" DataField="LegalCountry">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="LegalEmailAddress" DataField="LegalEmailAddress">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PhysicalAddressLine1" DataField="PhysicalAddressLine1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PhysicalAddressLine2" DataField="PhysicalAddressLine2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PhysicalCity" DataField="PhysicalCity">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PhysicalState" DataField="PhysicalState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PhysicalZip" DataField="PhysicalZip">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="PhysicalCountry" DataField="PhysicalCountry">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FebAddressLine1" DataField="FebAddressLine1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FebAddressLine2" DataField="FebAddressLine2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FebCity" DataField="FebCity">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FebState" DataField="FebState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FebZip" DataField="FebZip">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="FebCountry" DataField="FebCountry">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarAddressLine1" DataField="MarAddressLine1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarAddressLine2" DataField="MarAddressLine2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarCity" DataField="MarCity">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarState" DataField="MarState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarZip" DataField="MarZip">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MarCountry" DataField="MarCountry">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AprAddressLine1" DataField="AprAddressLine1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AprAddressLine2" DataField="AprAddressLine2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AprCity" DataField="AprCity">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AprState" DataField="AprState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AprZip" DataField="AprZip">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="AprCountry" DataField="AprCountry">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MayAddressLine1" DataField="MayAddressLine1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MayAddressLine2" DataField="MayAddressLine2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MayCity" DataField="MayCity">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MayState" DataField="MayState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MayZip" DataField="MayZip">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="MayCountry" DataField="MayCountry">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JunAddressLine1" DataField="JunAddressLine1">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JunAddressLine2" DataField="JunAddressLine2">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JunCity" DataField="JunCity">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JunState" DataField="JunState">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JunZip" DataField="JunZip">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="JunCountry" DataField="JunCountry">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return !string.IsNullOrEmpty(V) ? V.Trim('"') : "";
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+      <String Alias="RecordID" DataField="RecordID">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              return V;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+    </Fields>
+    <Massage GlobalVariables="int _recordId;string _prevMID;">
+      <Code>
+        var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+        foreach (var record in B)
+        {
+        record["FileSource"] = "SUPP_MIF_22ISOs";
+        record["RecordID"] = ++_recordId;
+        newB.Add(record);
+        }
+        return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+        <string>FileSource</string>
+        <string>MerchantID</string>
+        <string>Association</string>
+        <string>DBAName</string>
+        <string>BANK</string>
+        <string>Incorporation</string>
+        <string>TermOfAgreement</string>
+        <string>PricingOption</string>
+        <string>SeasonalMerchant</string>
+        <string>JanSeasonal</string>
+        <string>FebSeasonal</string>
+        <string>MarSeasonal</string>
+        <string>AprSeasonal</string>
+        <string>MaySeasonal</string>
+        <string>JunSeasonal</string>
+        <string>JulSeasonal</string>
+        <string>AugSeasonal</string>
+        <string>SepSeasonal</string>
+        <string>OctSeasonal</string>
+        <string>NovSeasonal</string>
+        <string>DecSeasonal</string>
+        <string>EquipmentServiceLevel</string>
+        <string>SupplyServiceLevel</string>
+        <string>SalesCode</string>
+        <string>DateOpened</string>
+        <string>SIC</string>
+        <string>MCC</string>
+        <string>MCCDescription</string>
+        <string>Rush</string>
+        <string>MerchantEmailAddress</string>
+        <string>MerchantWebSite</string>
+        <string>PrimaryOwnerName</string>
+        <string>PrimaryDateofBirth</string>
+        <string>PrimarySSN</string>
+        <string>PrimaryDriversLicense</string>
+        <string>PrimaryDriversLicenseIssuingState</string>
+        <string>PrimaryBusinessLicense</string>
+        <string>SecondaryOwnerName</string>
+        <string>SecondaryDateofBirth</string>
+        <string>SecondarySSN</string>
+        <string>SecondaryDriversLicense</string>
+        <string>SecondaryDriversLicenseIssuingState</string>
+        <string>SecondaryBusinessLicense</string>
+        <string>NatureofBusiness</string>
+        <string>Center</string>
+        <string>CreditStatus</string>
+        <string>DeclineReasonCode</string>
+        <string>CreditBureau</string>
+        <string>BusinessType</string>
+        <string>CreditSpecialist</string>
+        <string>AdditionalApprover</string>
+        <string>FICOScore</string>
+        <string>RiskType</string>
+        <string>NonTSYSGiftCardProvider</string>
+        <string>UserFlag1</string>
+        <string>UserFlag2</string>
+        <string>UserData1</string>
+        <string>UserData2</string>
+        <string>UserData3</string>
+        <string>UserData4</string>
+        <string>UserData5</string>
+        <string>Account1</string>
+        <string>PercentageKeyEntered</string>
+        <string>AverageTicket</string>
+        <string>AnnualVolume</string>
+        <string>Status</string>
+        <string>OriginalBoardDate</string>
+        <string>Phone</string>
+        <string>FederalTaxID</string>
+        <string>Last4FederalTaxID</string>
+        <string>MerchantDDA</string>
+        <string>Last4MerchantDDA</string>
+        <string>MerchantTransitRoutingNumber</string>
+        <string>Last4MerchantTransitRoutingNumber</string>
+        <string>LegalAddressLine1</string>
+        <string>LegalAddressLine2</string>
+        <string>LegalCity</string>
+        <string>LegalState</string>
+        <string>LegalZip</string>
+        <string>LegalCountry</string>
+        <string>LegalEmailAddress</string>
+        <string>PhysicalAddressLine1</string>
+        <string>PhysicalAddressLine2</string>
+        <string>PhysicalCity</string>
+        <string>PhysicalState</string>
+        <string>PhysicalZip</string>
+        <string>PhysicalCountry</string>
+        <string>FebAddressLine1</string>
+        <string>FebAddressLine2</string>
+        <string>FebCity</string>
+        <string>FebState</string>
+        <string>FebZip</string>
+        <string>FebCountry</string>
+        <string>MarAddressLine1</string>
+        <string>MarAddressLine2</string>
+        <string>MarCity</string>
+        <string>MarState</string>
+        <string>MarZip</string>
+        <string>MarCountry</string>
+        <string>AprAddressLine1</string>
+        <string>AprAddressLine2</string>
+        <string>AprCity</string>
+        <string>AprState</string>
+        <string>AprZip</string>
+        <string>AprCountry</string>
+        <string>MayAddressLine1</string>
+        <string>MayAddressLine2</string>
+        <string>MayCity</string>
+        <string>MayState</string>
+        <string>MayZip</string>
+        <string>MayCountry</string>
+        <string>JunAddressLine1</string>
+        <string>JunAddressLine2</string>
+        <string>JunCity</string>
+        <string>JunState</string>
+        <string>JunZip</string>
+        <string>JunCountry</string>
+        <string>RecordID</string>
+      </Fields>
+    </Csv>
+    <ValidLog OutPath="$path/$name_LOG">
+      <CustomFields>
+        <CustomField Text="FileSource" Value="AUTH" Force="true" />
+        <CustomField Text="FileTrailer" Value="1" Force="true"/>
+        <CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+        <CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+      </CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID" />
+  </Loaders>
+</Etl>

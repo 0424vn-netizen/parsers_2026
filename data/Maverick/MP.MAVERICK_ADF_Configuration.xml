@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ScanBatch="5" FlushBatch="10000">
+  <Extraction LayoutStartOffset="0">
+       <Layout Direction="Row" Start="\ABH01" End="\ABT01" MaxStart="0" Require="false"  Repeat="false" DataField="HEADER">
+			<Layout Direction="Column" StartOffset="0" EndOffset="1" Require="false" Repeat="false">
+				<Layout Direction="Row" StartOffset="0" EndOffset="4" Require="false" DataField="Record_Type" Repeat="false" />
+				<Layout Direction="Row" StartOffset="5" EndOffset="6" Require="false" DataField="AcquirerBIN" Repeat="false" />
+			</Layout>
+			<Layout Direction="Row" Start="\ATD01" End="\ATD01" Require="false" Repeat="true" DataField="TRANSACTIONTD01">
+				<Layout Direction="Column" StartOffset="0" EndOffset="1" Require="false" Repeat="false">
+					<Layout Direction="Row" StartOffset="4" EndOffset="6" Require="false" DataField="AcquiredBinNumber" Repeat="false" />
+					<Layout Direction="Row" StartOffset="17" EndOffset="15" Require="false" DataField="MerchantNumber" Repeat="false" />
+					<Layout Direction="Row" StartOffset="4" EndOffset="4" Require="false" DataField="TerminalNumber" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="15" Require="false" DataField="cAcceptID" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="25" Require="false" DataField="MerchantName" Repeat="false" />
+					<Layout Direction="Row" StartOffset="39" EndOffset="4" Require="false" DataField="MerchantCategoryCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="30" EndOffset="1" Require="false" DataField="CardTypeCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="22" Require="false" DataField="AccountNumber" Repeat="false" />
+					<Layout Direction="Row" StartOffset="56" EndOffset="4" Require="false" DataField="ExpirationDate" Repeat="false" />
+					<Layout Direction="Row" StartOffset="17" EndOffset="3" Require="false" DataField="JulianDayOfYear" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="10" Require="false" DataField="TransactionDate" Repeat="false" />
+					<Layout Direction="Row" StartOffset="1" EndOffset="8" Require="false" DataField="TransactionTime" Repeat="false" />
+					<Layout Direction="Row" StartOffset="23" EndOffset="4" Require="false" DataField="MessageType" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="2" Require="false" DataField="ProcessCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="4" EndOffset="2" Require="false" DataField="Communication" Repeat="false" />
+					<Layout Direction="Row" StartOffset="1" EndOffset="15" Require="false" DataField="TransactionID" Repeat="false" />
+					<Layout Direction="Row" StartOffset="18" EndOffset="12" Require="false" DataField="AuthorizationAmount" Repeat="false" />
+					<Layout Direction="Row" StartOffset="12" EndOffset="6" Require="false" DataField="AuthorizationNumber" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="2" Require="false" DataField="ResponseCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="7" EndOffset="4" Require="false" DataField="MessageReasonCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="1" EndOffset="1" Require="false" DataField="AVSResult" Repeat="false" />
+					<Layout Direction="Row" StartOffset="2" EndOffset="1" Require="false" DataField="CVVResult" Repeat="false" />
+					<Layout Direction="Row" StartOffset="20" EndOffset="1" Require="false" DataField="AuthorizationCharId" Repeat="false" />
+					<Layout Direction="Row" StartOffset="1" EndOffset="4" Require="false" DataField="ValidationCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="20" EndOffset="2" Require="false" DataField="PointOfSale" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="2" Require="false" DataField="PointOfSaleCap" Repeat="false" />
+					<Layout Direction="Row" StartOffset="10" EndOffset="1" Require="false" DataField="PointOfSaleCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="103" EndOffset="1" Require="false" DataField="MarketData" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="12" Require="false" DataField="CashBackAmount" Repeat="false" />
+					<Layout Direction="Row" StartOffset="38" EndOffset="1" Require="false" DataField="MasterCardIIASIndicator" Repeat="false" />
+					<Layout Direction="Row" StartOffset="38" EndOffset="1" Require="false" DataField="Msdi" Repeat="false" />
+					<Layout Direction="Row" StartOffset="33" EndOffset="1" Require="false" DataField="UCAF" Repeat="false" />
+					<Layout Direction="Row" StartOffset="0" EndOffset="3" Require="false" DataField="CurrencyCode" Repeat="false" />
+					<Layout Direction="Row" StartOffset="52" EndOffset="4" Require="false" DataField="NetworkID" Repeat="false" />
+					<Layout Direction="Row" StartOffset="50" EndOffset="12" Require="false" DataField="AdditionalPOSInfor" Repeat="false" />
+					<Layout Direction="Row" StartOffset="75" EndOffset="1" Require="false" DataField="TSYSTokenIndicator" Repeat="false" />
+					<Layout Direction="Row" StartOffset="2" EndOffset="1" Require="false" DataField="FallbackIndicator" Repeat="false" />
+				</Layout>
+				<Layout Direction="Row" Start="\ATD11" End="\n" Require="false" Repeat="true" DataField="TRANSACTIONTD11">
+					<Layout Direction="Column" StartOffset="0" EndOffset="1" Require="false" Repeat="false">
+						<Layout Direction="Row" StartOffset="91" EndOffset="11" Require="false" DataField="PaymentFacilitatorID" Repeat="false" />
+						<Layout Direction="Row" StartOffset="11" EndOffset="15" Require="false" DataField="SubMerchantID" Repeat="false" />
+						<Layout Direction="Row" StartOffset="8" EndOffset="35" Require="false" DataField="PaymentAccountReference" Repeat="false" />
+						<Layout Direction="Row" StartOffset="2" EndOffset="17" Require="true" DataField="EndpointPOSDataCode" Repeat="false" />
+					</Layout>
+					<Layout Direction="Row" Start="\AEX02" End="\n" Require="false" Repeat="true" DataField="EX02">
+						<Layout Direction="Column" StartOffset="0" EndOffset="1" Require="false" Repeat="false">
+							<Layout Direction="Row" StartOffset="40" EndOffset="1" Require="false" DataField="AcceptanceDeviceType" Repeat="false" />
+						</Layout>
+					</Layout>
+				</Layout>
+		  </Layout>
+		</Layout>
+  </Extraction>
+  <Transformation>
+    <Fields>
+              <Array Alias="TRANSACTIONTD01" DataField="TRANSACTIONTD01" Flat="true">
+				<Fields>
+					<String Alias="TransactionAmount" DataField="AuthorizationAmount" >
+						<Actions>
+							<CSharp Order="-1"  >
+								<Code>
+									if(!string.IsNullOrEmpty(V)){
+										double dText = 0;
+										bool bText = Double.TryParse(V, out dText);
+										dText = dText / 100;
+										return string.Format("{0:0.00}", (dText));
+									}
+									return V;
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<String Alias="AuthorizationAmount" DataField="AuthorizationAmount" >
+						<Actions>
+							<CSharp Order="-1"  >
+								<Code>
+									if(!string.IsNullOrEmpty(V)){
+										double dText = 0;
+										bool bText = Double.TryParse(V, out dText);
+										dText = dText / 100;
+										return string.Format("{0:0.00}", (dText));
+									}
+									return V;
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+
+					<String Alias="POSEntryMode">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>
+									R.TryGetValue("PointOfSale", out IExtractedInfo info);
+									string PointOfSale = info == null ? null : R.Block.GetValue(info);
+									R.TryGetValue("PointOfSaleCap", out IExtractedInfo info1);
+									string PointOfSaleCap = info1 == null ? null : R.Block.GetValue(info1);
+									
+									return PointOfSale+PointOfSaleCap;
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					
+					<String Alias="ChipConditionCode" DataField="AdditionalPOSInfor" >
+						<Actions>
+							<SubString Order="1"  StartOffset="2" EndOffset="1" />
+						</Actions>
+					</String>
+					<String Alias="MOTO" DataField="AdditionalPOSInfor" >
+						<Actions>
+							<SubString Order="1"  StartOffset="8" EndOffset="2" />
+						</Actions>
+					</String>
+					
+					<String Alias="AccountNumber" DataField="AccountNumber" >
+						<Actions>
+							<CSharp Order="0">
+								<Code>
+									return V == null ? null : V.Replace("xxxxxxxxx","999999");
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<Encrypt Alias="AccountNumber" DataField="AccountNumber">
+						<Actions>
+							<CSharp Order="-2">
+								<Code>
+									return !string.IsNullOrEmpty(V) ? V : "";
+								</Code>
+							</CSharp>
+						</Actions>
+					</Encrypt>
+					<Encrypt Alias="EncryptedAccountNumber" DataField="AccountNumber"/>
+					<Hash Alias="HashedAccountNumber" DataField="AccountNumber"/>
+					<Hash Alias="HashedBin8" DataField="AccountNumber">
+						<Actions>
+							<SubString Order="0" StartOffset="0" EndOffset="8" />
+						</Actions>
+					</Hash>
+					<String Alias="BINNumber" DataField="AccountNumber" >
+						<Actions>
+							<CSharp Order="2">
+								<Code>
+									return string.IsNullOrEmpty(V) ? V : V.Substring(0, 6).Trim();
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<String Alias="MSAccountNumber" DataField="AccountNumber" >
+						<Actions>
+							<CSharp Order="2">
+								<Code>
+									return string.IsNullOrEmpty(V) ? V : V.Substring(V.Length - 4, 4).Trim();
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					
+					<String Alias="MerchantNumber" DataField="MerchantNumber">
+						<Actions>
+							<CheckPattern Order="-1" Pattern="(^$)|(^\d+$)" />
+							<CSharp Order="-2">
+								<Code>
+									if (string.IsNullOrEmpty(V.Trim())) {
+										return string.Empty;
+									}
+
+									while (V.StartsWith("0"))
+									{
+										V = V.Substring(1);
+									}
+									return V.Trim();
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					
+					<String Alias="TransactionDate" DataField="TransactionDate">
+						<Actions>
+							<CSharp Order="-1">
+								<Code>
+									V = V.Replace("-", "").Trim();
+									return V.Substring(4, 2) + "/" + V.Substring(6, 2) + "/" + V.Substring(0, 4);
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<String Alias="TransactionTime" DataField="TransactionTime">
+						<Actions>
+							<CSharp Order="0">
+								<Code>
+									V = V.Replace(":", "").Trim();
+									return V.Substring(0, 2) + ":" + V.Substring(2, 2) + ":" + V.Substring(4, 2);
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					<String Alias="ExpirationDate" DataField="ExpirationDate">
+						<Actions>
+							<CSharp Order="0">
+								<Code>
+									V = V.Trim();
+									return !string.IsNullOrEmpty(V) ? V.Substring(0, 2) + "/" + V.Substring(2, 2) : V;
+								</Code>
+							</CSharp>
+						</Actions>
+					</String>
+					
+					<String Alias="CardholderIDMethod" DataField="AdditionalPOSInfor">
+						<Actions>
+							<SubString Order="1"  StartOffset="10" EndOffset="1" />
+						</Actions>
+					</String>
+
+					<Array Alias="TRANSACTIONTD11" DataField="TRANSACTIONTD11" Flat="true">
+						<Fields>
+							<Array Alias="EX02" DataField="EX02" Flat="true">
+							</Array>
+						</Fields>
+					</Array>
+				</Fields>
+              </Array>
+    </Fields>
+    <Massage GlobalVariables="int _recordId;">
+      <Code>var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+                            foreach (var record in B)
+                            {
+                                record["RecordID"] = ++_recordId;
+                                record["FileSource"] = "FULTON_TSYS_AUTH";
+								record["ReportDate"] = "";
+								record["ReportTime"] = "";
+								record["BankID"] = "VITAL";
+                                newB.Add(record);
+								<!-- } -->
+
+                            }
+                            return newB;
+      </Code>
+    </Massage>
+  </Transformation>
+  <Loaders>
+    <Console />
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+		<string>ReportDate</string>
+		<string>ReportTime</string>
+		<string>FileSource</string>
+		<string>DestinationBinNumber</string>
+		
+		<string>JulianDayOfYear</string>
+		<string>AcquiredBinNumber</string>
+		<string>BankID</string>
+		<string>MerchantNumber</string>
+		<string>cAcceptID</string>
+		<string>TransactionDate</string>
+		<string>TransactionTime</string>
+		<string>ProcessCode</string>
+		<string>AccountNumber</string>
+		<!-- <string>AccountNumberEncrypt</string> -->
+		<string>HashedAccountNumber</string>
+		<string>MerchantCategoryCode</string>
+		<string>AuthorizationAmount</string>
+		<string>ExpirationDate</string>
+		<string>ResponseCode</string>
+		<string>AuthorizationNumber</string>
+		<string>ReferenceNumber</string>
+		<string>Communication</string>
+		<string>AcquiredStatusID</string>
+		<string>CVVResult</string>
+		<string>AVSResult</string>
+		<string>PointOfSaleMasterCard</string>
+		<string>PointOfSaleCap</string>
+		<string>PointOfSaleCode</string>
+		<string>CurrencyCode</string>
+		<string>Msdi</string>
+		
+		<string>Sipac</string>
+		<string>AuthorizationCharId</string>
+		<string>Psti</string>
+		
+		<string>ValidationCode</string>
+		<string>BINNumber</string>
+		<string>MSAccountNumber</string>
+		<string>TerminalNumber</string>
+		<string>TransactionID</string>
+		<string>POSEntryMode</string>
+		<string>CardTypeCode</string>
+		<string>CashBackAmount</string>
+		<string>MOTO</string>
+		<string>NetworkID</string>
+		<string>CardholderIDMethod</string>
+		<string>MessageType</string>
+		<string>MarketData</string>
+		<string>ChipConditionCode</string>
+		<string>UCAF</string>
+		<string>MessageReasonCode</string>
+		<string>TSYSTokenIndicator</string>
+		<string>MasterCardIIASIndicator</string>
+		<string>PaymentAccountReference</string>
+		<string>TransactionAmount</string>
+		<string>MerchantName</string>
+		<string>FallbackIndicator</string>
+		<string>AdditionalPOSInfor</string>
+		<string>PaymentFacilitatorID</string>
+		<string>SubMerchantID</string>
+		<string>EndpointPOSDataCode</string>
+		<string>AcceptanceDeviceType</string>
+		<string>HashedBin8</string>
+       </Fields>
+    </Csv>
+	<ValidLog OutPath="$path/$name_LOG"> 
+		<CustomFields>
+		<CustomField Text="FileType" Value="AUTH"  Force="true" />
+		<CustomField Text="FileTrailer" Value="1" Force="true"/>
+		<CustomField Text="MatchedRecordCounts" Value="1" Force="true" />
+		<CustomField Text="FileTrailerDataMatched" Value="1" Force="true" />
+		</CustomFields>
+    </ValidLog>
+    <InvalidLog OutPath="$path/$name_INVALID"/>	
+  </Loaders>
+</Etl>
