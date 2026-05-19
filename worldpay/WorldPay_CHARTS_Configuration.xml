@@ -390,7 +390,18 @@
       </String>
 
     </Fields>
-    <Massage />
+    <Massage>
+      <Code>
+        var newB = new List&lt;IDictionary&lt;string, object&gt;&gt;(B.Count);
+        foreach (var record in B)
+        {
+          var seg = record.ContainsKey("SegmentNumber") ? record["SegmentNumber"]?.ToString() : null;
+          if (seg == "1")
+            newB.Add(record);
+        }
+        return newB;
+      </Code>
+    </Massage>
   </Transformation>
 
   <Loaders>
