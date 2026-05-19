@@ -15,18 +15,11 @@
     Parser targets only MHCB records. Each MHCB line = one output row before merge.
     Massage groups by RecordNumber and merges Segment 2/3/4/5 into Segment 1.
 
-    BatchSize is set large to guarantee all segments of a record land in the
-    same batch — required for the multi-segment merge in Massage to work correctly.
-    If the batch were split across a segment boundary, the supplemental segment
-    data would be silently dropped.
+    Multi-segment merge is handled in Massage using GlobalVariables (class-level
+    fields that persist across all batch calls on the same instance). Records are
+    accumulated until all TotalSegments have arrived — safe for any file size and
+    any BatchSize, including across parallel-ordering resequencing.
   -->
-
-  <!--
-    BatchSize: must be >= total MHCB lines in the largest expected file.
-    WorldPay dispute files are typically thousands of records; 500,000 covers
-    even the largest realistic daily file while staying within memory limits.
-  -->
-  <BatchSize>500000</BatchSize>
 
   <Extraction>
     <!--
@@ -481,72 +474,103 @@
       </String>
 
     </Fields>
-    <Massage>
+    <!--
+      GlobalVariables are class-level fields on the single Massage instance that
+      is reused for every batch call. This makes _seg1Map/_supMap/_totalMap persist
+      across batch boundaries — the root cause of the earlier batch-split bug.
+
+      Flow per batch:
+        1. Accumulate incoming records into _seg1Map (Seg-1) or _supMap (Seg-2+).
+        2. For each RecordNumber in _seg1Map, check if received count == TotalSegments.
+        3. If complete: merge _supMap entries into seg1, emit, clean up.
+        4. Incomplete records stay in the maps and are re-checked on the next batch.
+    -->
+    <Massage GlobalVariables="Dictionary&lt;string,IDictionary&lt;string,object&gt;&gt; _seg1Map;Dictionary&lt;string,List&lt;IDictionary&lt;string,object&gt;&gt;&gt; _supMap;Dictionary&lt;string,int&gt; _totalMap;">
       <Code>
-        // Group all segments by RecordNumber
-        var groups = new Dictionary&lt;string, List&lt;IDictionary&lt;string, object&gt;&gt;&gt;();
-        var order = new List&lt;string&gt;();
+        // Initialize on first batch (fields default to null)
+        if (_seg1Map == null)
+        {
+          _seg1Map  = new Dictionary&lt;string, IDictionary&lt;string, object&gt;&gt;();
+          _supMap   = new Dictionary&lt;string, List&lt;IDictionary&lt;string, object&gt;&gt;&gt;();
+          _totalMap = new Dictionary&lt;string, int&gt;();
+        }
+
+        // Accumulate this batch into the cross-batch tracking maps
         foreach (var record in B)
         {
           var recNum = record.ContainsKey("RecordNumber") ? record["RecordNumber"]?.ToString() ?? "" : "";
-          if (!groups.ContainsKey(recNum)) { groups[recNum] = new List&lt;IDictionary&lt;string, object&gt;&gt;(); order.Add(recNum); }
-          groups[recNum].Add(record);
+          var segNum = record.ContainsKey("SegmentNumber") ? record["SegmentNumber"]?.ToString() ?? "1" : "1";
+          int total = 1;
+          if (record.ContainsKey("TotalSegments")) int.TryParse(record["TotalSegments"]?.ToString(), out total);
+          if (total &lt; 1) total = 1;
+
+          if (!_totalMap.ContainsKey(recNum)) _totalMap[recNum] = total;
+
+          if (segNum == "1")
+            _seg1Map[recNum] = record;
+          else
+          {
+            if (!_supMap.ContainsKey(recNum)) _supMap[recNum] = new List&lt;IDictionary&lt;string, object&gt;&gt;();
+            _supMap[recNum].Add(record);
+          }
         }
 
-        var result = new List&lt;IDictionary&lt;string, object&gt;&gt;(order.Count);
-        foreach (var recNum in order)
+        // Emit records whose all segments have now arrived
+        var result   = new List&lt;IDictionary&lt;string, object&gt;&gt;();
+        var completed = new List&lt;string&gt;();
+
+        foreach (var recNum in _seg1Map.Keys)
         {
-          var group = groups[recNum];
+          if (!_totalMap.TryGetValue(recNum, out int total)) continue;
+          var supCount = _supMap.ContainsKey(recNum) ? _supMap[recNum].Count : 0;
+          if (1 + supCount &lt; total) continue; // Still waiting for more segments
 
-          // Find the primary Segment-1 record
-          IDictionary&lt;string, object&gt; seg1 = null;
-          foreach (var r in group)
-            if (r.ContainsKey("SegmentNumber") &amp;&amp; r["SegmentNumber"]?.ToString() == "1")
-              { seg1 = r; break; }
-          if (seg1 == null) continue;
+          var seg1 = _seg1Map[recNum];
 
-          // Merge supplemental segments into Segment-1
-          foreach (var seg in group)
+          if (_supMap.ContainsKey(recNum))
           {
-            var segNum = seg.ContainsKey("SegmentNumber") ? seg["SegmentNumber"]?.ToString() : null;
-            if (segNum == "1") continue;
-
-            if (segNum == "2")
+            foreach (var seg in _supMap[recNum])
             {
-              var note = seg.ContainsKey("Seg2UserNote") ? seg["Seg2UserNote"]?.ToString() : null;
-              var ctm  = seg.ContainsKey("Seg2CommentToMerchant") ? seg["Seg2CommentToMerchant"]?.ToString() : null;
-              var cfm  = seg.ContainsKey("Seg2CommentFromMerchant") ? seg["Seg2CommentFromMerchant"]?.ToString() : null;
-              if (!string.IsNullOrEmpty(note)) seg1["UserNote"] = note;
-              if (!string.IsNullOrEmpty(ctm))  seg1["CommentToMerchant"] = ctm;
-              if (!string.IsNullOrEmpty(cfm))  seg1["CommentFromMerchant"] = cfm;
-            }
-            else if (segNum == "3" || segNum == "4")
-            {
-              // Seg 3&4 share same layout; concatenate if both present
-              var rc = seg.ContainsKey("Seg3ResearchComments") ? seg["Seg3ResearchComments"]?.ToString() : null;
-              if (!string.IsNullOrEmpty(rc))
+              var segNum = seg.ContainsKey("SegmentNumber") ? seg["SegmentNumber"]?.ToString() : null;
+              if (segNum == "2")
               {
-                var existing = seg1.ContainsKey("ResearchComments") ? seg1["ResearchComments"]?.ToString() : null;
-                seg1["ResearchComments"] = string.IsNullOrEmpty(existing) ? rc : existing + " " + rc;
+                var note = seg.ContainsKey("Seg2UserNote") ? seg["Seg2UserNote"]?.ToString() : null;
+                var ctm  = seg.ContainsKey("Seg2CommentToMerchant") ? seg["Seg2CommentToMerchant"]?.ToString() : null;
+                var cfm  = seg.ContainsKey("Seg2CommentFromMerchant") ? seg["Seg2CommentFromMerchant"]?.ToString() : null;
+                if (!string.IsNullOrEmpty(note)) seg1["UserNote"] = note;
+                if (!string.IsNullOrEmpty(ctm))  seg1["CommentToMerchant"] = ctm;
+                if (!string.IsNullOrEmpty(cfm))  seg1["CommentFromMerchant"] = cfm;
               }
-            }
-            else if (segNum == "5")
-            {
-              var df1     = seg.ContainsKey("Seg5DiscretionaryField1") ? seg["Seg5DiscretionaryField1"]?.ToString() : null;
-              var df2     = seg.ContainsKey("Seg5DiscretionaryField2") ? seg["Seg5DiscretionaryField2"]?.ToString() : null;
-              var df3     = seg.ContainsKey("Seg5DiscretionaryField3") ? seg["Seg5DiscretionaryField3"]?.ToString() : null;
-              var amazon  = seg.ContainsKey("Seg5AmazonPayChargeId") ? seg["Seg5AmazonPayChargeId"]?.ToString() : null;
-              var par     = seg.ContainsKey("Seg5PAR") ? seg["Seg5PAR"]?.ToString() : null;
-              if (!string.IsNullOrEmpty(df1))    seg1["DiscretionaryField1"] = df1;
-              if (!string.IsNullOrEmpty(df2))    seg1["DiscretionaryField2"] = df2;
-              if (!string.IsNullOrEmpty(df3))    seg1["DiscretionaryField3"] = df3;
-              if (!string.IsNullOrEmpty(amazon)) seg1["AmazonPayChargeId"] = amazon;
-              if (!string.IsNullOrEmpty(par))    seg1["PAR"] = par;
+              else if (segNum == "3" || segNum == "4")
+              {
+                var rc = seg.ContainsKey("Seg3ResearchComments") ? seg["Seg3ResearchComments"]?.ToString() : null;
+                if (!string.IsNullOrEmpty(rc))
+                {
+                  var existing = seg1.ContainsKey("ResearchComments") ? seg1["ResearchComments"]?.ToString() : null;
+                  seg1["ResearchComments"] = string.IsNullOrEmpty(existing) ? rc : existing + " " + rc;
+                }
+              }
+              else if (segNum == "5")
+              {
+                var df1    = seg.ContainsKey("Seg5DiscretionaryField1") ? seg["Seg5DiscretionaryField1"]?.ToString() : null;
+                var df2    = seg.ContainsKey("Seg5DiscretionaryField2") ? seg["Seg5DiscretionaryField2"]?.ToString() : null;
+                var df3    = seg.ContainsKey("Seg5DiscretionaryField3") ? seg["Seg5DiscretionaryField3"]?.ToString() : null;
+                var amazon = seg.ContainsKey("Seg5AmazonPayChargeId") ? seg["Seg5AmazonPayChargeId"]?.ToString() : null;
+                var par    = seg.ContainsKey("Seg5PAR") ? seg["Seg5PAR"]?.ToString() : null;
+                if (!string.IsNullOrEmpty(df1))    seg1["DiscretionaryField1"] = df1;
+                if (!string.IsNullOrEmpty(df2))    seg1["DiscretionaryField2"] = df2;
+                if (!string.IsNullOrEmpty(df3))    seg1["DiscretionaryField3"] = df3;
+                if (!string.IsNullOrEmpty(amazon)) seg1["AmazonPayChargeId"] = amazon;
+                if (!string.IsNullOrEmpty(par))    seg1["PAR"] = par;
+              }
             }
           }
 
           result.Add(seg1);
+          completed.Add(recNum);
         }
+
+        foreach (var k in completed) { _seg1Map.Remove(k); _supMap.Remove(k); _totalMap.Remove(k); }
         return result;
       </Code>
     </Massage>
