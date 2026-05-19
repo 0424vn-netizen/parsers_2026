@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Etl xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <!--
+    WorldPay Dispute Management System - CHARTS File Parser
+    Spec: WorldPay CHARTS mapping file_v1_April2026.xlsx
+
+    File structure:
+      MHFH  - File Header (1 line)
+      MHCH  - Merchant Control Header (1 line)
+      MHCB  - Merchant Detail Draft Record (N lines, 320 chars each, fixed-width)
+      MHCT  - Control Trailer
+      MHFT  - File Trailer
+
+    All positions are 1-indexed inclusive, including the 4-space line prefix.
+    Parser targets only MHCB records. Each MHCB line = one output row.
+    Segment 1 carries full data; Segment 2+ carry limited/accounting data.
+    Filter by SegmentNumber='1' downstream if only primary records are needed.
+  -->
+
+  <Extraction>
+    <!--
+      Layout.Start / Layout.End are used by the Scanner to identify record boundaries.
+      Each MHCB line is treated as a single-line record.
+      Column direction children extract fixed-width fields by cursor offset.
+
+      Cursor arithmetic (0-indexed):
+        StartOffset = columns to advance from current cursor before reading
+        EndOffset   = field length in characters
+    -->
+    <Layout Direction="Column" Start="^\s{4}MHCB" End="^\s{4}MHCB">
+
+      <!-- Spec 13-18 (0-idx 12): DateReceived YYMMDD
+           StartOffset=12 skips: 4 spaces + MHCB (4) + SortInstitutionId VNTV (4) = 12 -->
+      <Layout DataField="DateReceived"                 StartOffset="12" EndOffset="6"  />
+
+      <!-- Spec 19-20 (0-idx 18): TransactionType / DebitOrCredit
+           40=Retrieval Request, 41=Chargeback, 42=Chargeback Reversal -->
+      <Layout DataField="DebitOrCredit"                StartOffset="0"  EndOffset="2"  />
+
+      <!-- Spec 21-30 (0-idx 20): DisputeAmount (10 digits, implied 2 decimal places) -->
+      <Layout DataField="TransactionAmount"            StartOffset="0"  EndOffset="10" />
+
+      <!-- Spec 31-42 (0-idx 30): RecordNumber (12 chars) -->
+      <Layout DataField="RecordNumber"                 StartOffset="0"  EndOffset="12" />
+
+      <!-- Spec 43 (0-idx 42): SegmentNumber (1=primary, 2=accounting detail) -->
+      <Layout DataField="SegmentNumber"                StartOffset="0"  EndOffset="1"  />
+
+      <!-- Spec 44 (0-idx 43): TotalSegments -->
+      <Layout DataField="TotalSegments"                StartOffset="0"  EndOffset="1"  />
+
+      <!-- Skip AcquirerTerminalId (45-52) + RegisterNumber (53-56) = 12 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="12" />
+
+      <!-- Spec 57-60 (0-idx 56): NetworkID / CardTypeCode: DISC, VISA, M/C, AMEX -->
+      <Layout DataField="CardTypeCode"                 StartOffset="0"  EndOffset="4"  />
+
+      <!-- Skip MerchantDraftRetrievalNumber (61-71) + Reserved (72-73) = 13 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="13" />
+
+      <!-- Spec 74 (0-idx 73): ChargebackUsageCode (presentation number: 1,2,3...) -->
+      <Layout DataField="ChargebackUsageCode"          StartOffset="0"  EndOffset="1"  />
+
+      <!-- Spec 75-78 (0-idx 74): AdjustmentType / ChargebackType
+           DRFT=Retrieval, PNOT=Pre-notification, CHBK=Chargeback,
+           REPR=Re-Presentment, PARB=Pre-Arbitration, ARBT=Arbitration,
+           COMP=Compliance, FEE=Fee -->
+      <Layout DataField="ChargebackType"               StartOffset="0"  EndOffset="4"  />
+
+      <!-- Spec 79-84 (0-idx 78): OriginalTransDate YYMMDD -->
+      <Layout DataField="TransactionDate"              StartOffset="0"  EndOffset="6"  />
+
+      <!-- Skip Reserved (85-92) = 8 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="8"  />
+
+      <!-- Spec 93-98 (0-idx 92): OriginalTransTime HHMMSS -->
+      <Layout DataField="TransactionTime"              StartOffset="0"  EndOffset="6"  />
+
+      <!-- Spec 99-117 (0-idx 98): PAN (19 chars, may have trailing spaces) -->
+      <Layout DataField="PAN"                          StartOffset="0"  EndOffset="19" />
+
+      <!-- Spec 118-121 (0-idx 117): ChargebackActionCode (MACP, CRMR, CHGM, etc.) -->
+      <Layout DataField="ChargebackActionCode"         StartOffset="0"  EndOffset="4"  />
+
+      <!-- Spec 122-127 (0-idx 121): ChargebackActionCodeDate / CentralProcessingDate YYMMDD -->
+      <Layout DataField="CentralProcessingDate"        StartOffset="0"  EndOffset="6"  />
+
+      <!-- Skip DepartmentNumber (128-132) + IssuerCurrencyCode (133-135) = 8 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="8"  />
+
+      <!-- Spec 136-139 (0-idx 135): MCC -->
+      <Layout DataField="MCC"                          StartOffset="0"  EndOffset="4"  />
+
+      <!-- Spec 140-146 (0-idx 139): AdjustmentReasonCode / ReasonCode (7 chars)
+           Prefixed by card type: V=Visa, M=Mastercard, D=Discover, A=Amex -->
+      <Layout DataField="ReasonCode"                   StartOffset="0"  EndOffset="7"  />
+
+      <!-- Spec 147-158 (0-idx 146): ChargebackReferenceNumber / CBReferenceNumber (12 chars) -->
+      <Layout DataField="CBReferenceNumber"            StartOffset="0"  EndOffset="12" />
+
+      <!-- Spec 159-161 (0-idx 158): TransactionDispositionQualifier
+           100=New Item, 101=Delete, 102=Update -->
+      <Layout DataField="TransactionDispositionQualifier" StartOffset="0" EndOffset="3" />
+
+      <!-- Spec 162-184 (0-idx 161): AcquirerReferenceNumber / ReferenceNumber (23 chars) -->
+      <Layout DataField="ReferenceNumber"              StartOffset="0"  EndOffset="23" />
+
+      <!-- Skip MerchantChain (185-189) + DivisionNumber (190-192) + MerchantStoreNumber (193-201) = 17 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="17" />
+
+      <!-- Spec 202-204 (0-idx 201): FeeAmount (3 chars, implied decimal, used when ChargebackType=FEE) -->
+      <Layout DataField="Fee"                          StartOffset="0"  EndOffset="3"  />
+
+      <!-- Skip SalesPersonNumber (205-213) = 9 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="9"  />
+
+      <!-- Spec 214-215 (0-idx 213): EntryMode (Visa only)
+           00=Not used, 01=Keyed, 02=MagStripe, 90=MagStripe PS2000 -->
+      <Layout DataField="EntryMode"                    StartOffset="0"  EndOffset="2"  />
+
+      <!-- Skip AuthSource(216) + Reserved(217) + ECI(218) + ThirdPartyFlag(219)
+               + IssuerComments(220-269) + Filler(270-303) = 88 chars -->
+      <Layout                                          StartOffset="0"  EndOffset="88" />
+
+      <!-- Spec 304-319 (0-idx 303): MerchantIdentificationNumber / MerchantNumber (16 chars) -->
+      <Layout DataField="MerchantNumber"               StartOffset="0"  EndOffset="16" />
+
+    </Layout>
+  </Extraction>
+
+  <Transformation>
+    <Fields>
+
+      <!-- DateReceived: YYMMDD -> YYYY/MM/DD
+           Year pivot: yy < 70 => 20xx, else 19xx -->
+      <String Alias="DateReceived" DataField="DateReceived">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              if (string.IsNullOrWhiteSpace(V) || V.Trim().Length != 6) return null;
+              var d = V.Trim();
+              var yy = int.Parse(d.Substring(0, 2));
+              var yyyy = (yy &lt; 70 ? "20" : "19") + d.Substring(0, 2);
+              return yyyy + "/" + d.Substring(2, 2) + "/" + d.Substring(4, 2);
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- DebitOrCredit: 40=Retrieval, 41=Chargeback of Purchase, 42=Reversal/Refund CB -->
+      <String Alias="DebitOrCredit" DataField="DebitOrCredit">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>return V?.Trim();</Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- TransactionAmount: 10-digit implied 2-decimal (e.g. 0000064772 = 647.72) -->
+      <String Alias="TransactionAmount" DataField="TransactionAmount">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              var s = V?.Trim();
+              if (string.IsNullOrEmpty(s)) return null;
+              if (long.TryParse(s, out long val))
+                return (val / 100.0).ToString("F2");
+              return s;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <String Alias="RecordNumber" DataField="RecordNumber">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <String Alias="SegmentNumber" DataField="SegmentNumber">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <String Alias="TotalSegments" DataField="TotalSegments">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- CardTypeCode: DISC, VISA, M/C, AMEX -->
+      <String Alias="CardTypeCode" DataField="CardTypeCode">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- ChargebackUsageCode: presentation number (1=first, 2=second, ...) -->
+      <String Alias="ChargebackUsageCode" DataField="ChargebackUsageCode">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- ChargebackType: DRFT, PNOT, CHBK, REPR, PARB, ARBT, COMP, FEE -->
+      <String Alias="ChargebackType" DataField="ChargebackType">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- TransactionDate: YYMMDD -> YYYY/MM/DD (original transaction date) -->
+      <String Alias="TransactionDate" DataField="TransactionDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              if (string.IsNullOrWhiteSpace(V)) return null;
+              var d = V.Trim();
+              if (d.Length != 6) return null;
+              var yy = int.Parse(d.Substring(0, 2));
+              var yyyy = (yy &lt; 70 ? "20" : "19") + d.Substring(0, 2);
+              return yyyy + "/" + d.Substring(2, 2) + "/" + d.Substring(4, 2);
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- TransactionTime: HHMMSS -> HH:MM:SS (original transaction time) -->
+      <String Alias="TransactionTime" DataField="TransactionTime">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              if (string.IsNullOrWhiteSpace(V)) return null;
+              var t = V.Trim();
+              if (t.Length != 6) return null;
+              return t.Substring(0, 2) + ":" + t.Substring(2, 2) + ":" + t.Substring(4, 2);
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- HashedAccountNumber: PAN hashed with salt (uses configured salt key) -->
+      <Hash Alias="HashedAccountNumber" DataField="PAN">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>return V?.Trim();</Code>
+          </CSharp>
+        </Actions>
+      </Hash>
+
+      <!-- BinNumber: first 6 digits of PAN -->
+      <String Alias="BinNumber" DataField="PAN">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              var pan = V?.Trim();
+              if (string.IsNullOrEmpty(pan)) return null;
+              return pan.Length >= 6 ? pan.Substring(0, 6) : pan;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- MSAccountNumber: last 4 digits of PAN -->
+      <String Alias="MSAccountNumber" DataField="PAN">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              var pan = V?.Trim();
+              if (string.IsNullOrEmpty(pan)) return null;
+              return pan.Length >= 4 ? pan.Substring(pan.Length - 4) : pan;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- ChargebackActionCode: MACP=Mastercard Accept, CHGM=Charge to Merchant, etc. -->
+      <String Alias="ChargebackActionCode" DataField="ChargebackActionCode">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- CentralProcessingDate: YYMMDD -> YYYY/MM/DD (date chargeback action was taken) -->
+      <String Alias="CentralProcessingDate" DataField="CentralProcessingDate">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              if (string.IsNullOrWhiteSpace(V)) return null;
+              var d = V.Trim();
+              if (d.Length != 6) return null;
+              var yy = int.Parse(d.Substring(0, 2));
+              var yyyy = (yy &lt; 70 ? "20" : "19") + d.Substring(0, 2);
+              return yyyy + "/" + d.Substring(2, 2) + "/" + d.Substring(4, 2);
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- MCC: Merchant Category Code -->
+      <String Alias="MCC" DataField="MCC">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- ReasonCode: card-type-prefixed reason (e.g. D4753, V1004, M4853, AF30) -->
+      <String Alias="ReasonCode" DataField="ReasonCode">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- CBReferenceNumber: case/control number from the card network -->
+      <String Alias="CBReferenceNumber" DataField="CBReferenceNumber">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- FirstTime: "Y" when TransactionDispositionQualifier=100 (New Item) -->
+      <String Alias="FirstTime" DataField="TransactionDispositionQualifier">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>return "100".Equals(V?.Trim()) ? "Y" : null;</Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- ReferenceNumber: Acquirer reference number from Worldpay (23 chars) -->
+      <String Alias="ReferenceNumber" DataField="ReferenceNumber">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- Fee: implied 2-decimal (e.g. 090 = 0.90), only present when ChargebackType=FEE -->
+      <String Alias="Fee" DataField="Fee">
+        <Actions>
+          <CSharp Order="-1">
+            <Code>
+              var s = V?.Trim();
+              if (string.IsNullOrEmpty(s)) return null;
+              if (long.TryParse(s, out long val))
+                return (val / 100.0).ToString("F2");
+              return s;
+            </Code>
+          </CSharp>
+        </Actions>
+      </String>
+
+      <!-- EntryMode: 00=Not used, 01=Keyed, 02=MagStripe, 90=MagStripe PS2000 -->
+      <String Alias="EntryMode" DataField="EntryMode">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+      <!-- MerchantNumber: Merchant Identification Number (16 chars) -->
+      <String Alias="MerchantNumber" DataField="MerchantNumber">
+        <Actions><CSharp Order="-1"><Code>return V?.Trim();</Code></CSharp></Actions>
+      </String>
+
+    </Fields>
+    <Massage />
+  </Transformation>
+
+  <Loaders>
+    <Csv OutPath="$path/$name_VALID" Delimiter="|">
+      <Fields>
+        <string>DateReceived</string>
+        <string>DebitOrCredit</string>
+        <string>TransactionAmount</string>
+        <string>RecordNumber</string>
+        <string>SegmentNumber</string>
+        <string>TotalSegments</string>
+        <string>CardTypeCode</string>
+        <string>ChargebackUsageCode</string>
+        <string>ChargebackType</string>
+        <string>TransactionDate</string>
+        <string>TransactionTime</string>
+        <string>HashedAccountNumber</string>
+        <string>BinNumber</string>
+        <string>MSAccountNumber</string>
+        <string>ChargebackActionCode</string>
+        <string>CentralProcessingDate</string>
+        <string>MCC</string>
+        <string>ReasonCode</string>
+        <string>CBReferenceNumber</string>
+        <string>FirstTime</string>
+        <string>ReferenceNumber</string>
+        <string>Fee</string>
+        <string>EntryMode</string>
+        <string>MerchantNumber</string>
+      </Fields>
+    </Csv>
+    <InvalidLog OutPath="$path/$name_INVALID" />
+  </Loaders>
+
+</Etl>
